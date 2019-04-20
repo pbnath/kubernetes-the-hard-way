@@ -225,7 +225,7 @@ sudo apt-get update && sudo apt-get install -y haproxy
 ```
 cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg 
 frontend kubernetes
-    bind 192.168.5.30:6443
+    bind :6443
     option tcplog
     mode tcp
     default_backend kubernetes-master-nodes

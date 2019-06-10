@@ -396,8 +396,8 @@ master-1$ kubectl get nodes --kubeconfig admin.kubeconfig
 
 ```
 NAME       STATUS   ROLES    AGE   VERSION
-worker-1   Ready    <none>   12h   v1.13.0
-worker-2   Ready    <none>   37m   v1.13.0
+worker-1   NotReady   <none>   17m   v1.13.0
+worker-2   NotReady   <none>   56s   v1.13.0
 ```
 
 Next: [Configuring Kubectl](11-configuring-kubectl.md)

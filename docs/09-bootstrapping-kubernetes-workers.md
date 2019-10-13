@@ -48,7 +48,7 @@ worker-1.crt
 
 Generate a certificate and private key for second worker node:
 
-Worker1:
+Worker2:
 
 ```
 master-1$ cat > openssl-worker-2.cnf <<EOF

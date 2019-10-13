@@ -8,7 +8,7 @@ We will now install the kubernetes components
 
 ## Prerequisites
 
-The commands in this lab must be run on first worker instance: `worker-1`. Login to first worker instance using SSH Terminal.
+The part of commands in this lab must be run on `master-1` first, then, on first worker instance: `worker-1`. Login to `master-1` and `worker-1` instance using SSH Terminal.
 
 ### Provisioning  Kubelet Client Certificates
 
@@ -41,8 +41,41 @@ openssl x509 -req -in worker-1.csr -CA ca.crt -CAkey ca.key -CAcreateserial  -ou
 Results:
 
 ```
+worker-1.csr
 worker-1.key
 worker-1.crt
+```
+
+Generate a certificate and private key for second worker node:
+
+Worker1:
+
+```
+master-1$ cat > openssl-worker-2.cnf <<EOF
+[req]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = worker-2
+IP.1 = 192.168.5.22
+EOF
+
+openssl genrsa -out worker-2.key 2048
+openssl req -new -key worker-2.key -subj "/CN=system:node:worker-2/O=system:nodes" -out worker-2.csr -config openssl-worker-2.cnf
+openssl x509 -req -in worker-2.csr -CA ca.crt -CAkey ca.key -CAcreateserial  -out worker-2.crt -extensions v3_req -extfile openssl-worker-2.cnf -days 1000
+```
+
+Results:
+
+```
+worker-2.csr
+worker-2.key
+worker-2.crt
 ```
 
 ### The kubelet Kubernetes Configuration File
@@ -76,12 +109,32 @@ Generate a kubeconfig file for the first worker node:
     --kubeconfig=worker-1.kubeconfig
 
   kubectl config use-context default --kubeconfig=worker-1.kubeconfig
+
+    kubectl config set-cluster kubernetes-the-hard-way \
+    --certificate-authority=ca.crt \
+    --embed-certs=true \
+    --server=https://${LOADBALANCER_ADDRESS}:6443 \
+    --kubeconfig=worker-2.kubeconfig
+
+  kubectl config set-credentials system:node:worker-2 \
+    --client-certificate=worker-2.crt \
+    --client-key=worker-2.key \
+    --embed-certs=true \
+    --kubeconfig=worker-2.kubeconfig
+
+  kubectl config set-context default \
+    --cluster=kubernetes-the-hard-way \
+    --user=system:node:worker-2 \
+    --kubeconfig=worker-2.kubeconfig
+
+  kubectl config use-context default --kubeconfig=worker-2.kubeconfig
 }
 ```
 
 Results:
 
 ```
+worker-2.kubeconfig
 worker-1.kubeconfig
 ```
 
@@ -89,11 +142,12 @@ worker-1.kubeconfig
 
 ```
 master-1$ scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
+master-1$ scp ca.crt worker-2.crt worker-2.key worker-2.kubeconfig worker-2:~/
 ```
 
 ### Download and Install Worker Binaries
 
-Going forward all activities are to be done on the `worker-1` node.
+Going forward all activities are to be done on the `worker-1` and `worker-2` nodes.
 
 ```
 worker-1$ wget -q --show-progress --https-only --timestamping \
@@ -250,6 +304,7 @@ master-1$ kubectl get nodes --kubeconfig admin.kubeconfig
 ```
 NAME       STATUS     ROLES    AGE   VERSION
 worker-1   NotReady   <none>   93s   v1.13.0
+worker-2   NotReady   <none>   93s   v1.13.0
 ```
 
 > Note: It is OK for the worker node to be in a NotReady state.

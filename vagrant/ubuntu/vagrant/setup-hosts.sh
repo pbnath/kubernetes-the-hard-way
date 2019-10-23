@@ -15,3 +15,7 @@ cat >> /etc/hosts <<EOF
 192.168.5.22  worker-2
 192.168.5.30  lb
 EOF
+
+# Remove hard coded reference to user random file
+# see https://github.com/openssl/openssl/issues/7754
+sed -i -E 's/^(RANDFILE.*HOME.*)/#\1/' /etc/ssl/openssl.cnf

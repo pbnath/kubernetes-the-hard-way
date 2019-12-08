@@ -215,6 +215,8 @@ etcd-1               Healthy   {"health": "true"}
 
 In this section you will provision an external load balancer to front the Kubernetes API Servers. The `kubernetes-the-hard-way` static IP address will be attached to the resulting load balancer.
 
+Make sure you enter the below commands on the `loadbalancer` host by first sshing into it.
+
 
 ### Provision a Network Load Balancer
 

@@ -16,7 +16,8 @@ Kubernetes uses a [special-purpose authorization mode](https://kubernetes.io/doc
 
 Generate a certificate and private key for one worker node:
 
-Worker1:
+On the **master** where you created the CA:
+
 
 ```
 master-1$ cat > openssl-worker-1.cnf <<EOF
@@ -55,6 +56,8 @@ LOADBALANCER_ADDRESS=192.168.5.30
 ```
 
 Generate a kubeconfig file for the first worker node:
+
+On the **master** used to create all configs:
 
 ```
 {

@@ -8,6 +8,13 @@ You can do these on any machine with `openssl` on it. But you should be able to 
 
 In our case we do it on the master-1 node, as we have set it up to be the administrative client.
 
+## Update OpenSSL config
+
+Due to a problem with the default openssl configuration, RANDFILE needs to be commended out from the default openssl config to be able to generate keys with genrsa. 
+
+```
+sudo sed -e '/RANDFILE/ s/^#*/#/' -i /etc/ssl/openssl.cnf
+```
 
 ## Certificate Authority
 

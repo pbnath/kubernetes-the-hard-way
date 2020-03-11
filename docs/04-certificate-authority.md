@@ -21,6 +21,7 @@ Create a CA certificate, then generate a Certificate Signing Request and use it 
 openssl genrsa -out ca.key 2048
 
 # Create CSR using the private key
+touch /home/vagrant/.rnd
 openssl req -new -key ca.key -subj "/CN=KUBERNETES-CA" -out ca.csr
 
 # Self sign the csr using its own private key
@@ -52,7 +53,6 @@ Generate the `admin` client certificate and private key:
 openssl genrsa -out admin.key 2048
 
 # Generate CSR for admin user. Note the OU.
-touch /home/vagrant/.rnd
 openssl req -new -key admin.key -subj "/CN=admin/O=system:masters" -out admin.csr
 
 # Sign certificate for admin user using CA servers private key

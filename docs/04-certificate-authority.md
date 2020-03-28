@@ -238,6 +238,7 @@ Copy the appropriate certificates and private keys to each controller instance:
 ```
 for instance in master-1 master-2; do
   scp ca.crt ca.key kube-apiserver.key kube-apiserver.crt \
+    kube-proxy.key kube-proxy.crt \
     service-account.key service-account.crt \
     etcd-server.key etcd-server.crt \
     ${instance}:~/

@@ -21,10 +21,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 Copy the public key of master to all other VMs
 
 ```
-for host in master-1 master-2 worker-1 worker2
-do
-  $ssh-copy $host
-done
+$for host in master-1 master-2 worker-1 worker2; do $ssh-copy $host; done
 ```
 
 

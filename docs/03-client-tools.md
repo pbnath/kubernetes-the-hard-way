@@ -24,6 +24,12 @@ Copy the public key of master to all other VMs
 $for host in master-1 master-2 worker-1 worker2; do $ssh-copy $host; done
 ```
 
+Or for a much larger cluster with 3 masters and 10 workers
+```
+$for host in {master-{1..3},worker-{1..10}}; do $ssh-copy $host; done
+```
+
+
 
 ## Install kubectl
 

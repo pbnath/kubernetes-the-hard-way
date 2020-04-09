@@ -18,12 +18,13 @@ $cat .ssh/id_rsa.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 ```
 
-Move public key of master to all other VMs
+Copy the public key of master to all other VMs
 
 ```
-$cat >> ~/.ssh/authorized_keys <<EOF
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
-EOF
+for host in master-1 master-2 worker-1 worker2
+do
+  $ssh-copy $host
+done
 ```
 
 

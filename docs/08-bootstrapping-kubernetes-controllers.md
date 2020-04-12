@@ -215,6 +215,12 @@ etcd-1               Healthy   {"health": "true"}
 
 In this section you will provision an external load balancer to front the Kubernetes API Servers. The `kubernetes-the-hard-way` static IP address will be attached to the resulting load balancer.
 
+This needs to be done from loadbalancer. Go back to your host and run the following command
+
+```
+vargant ssh loadbalancer
+```
+
 
 ### Provision a Network Load Balancer
 

@@ -33,6 +33,15 @@ ca.crt
 ca.key
 ```
 
+You might encounter this error during creating CSR from within master-1.
+
+```
+Can't load /home/vagrant/.rnd into RNG
+140563871224256:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/vagrant/.rnd
+```
+
+To solve that, you need to edit /etc/ssl/openssl.cnf and comment out the RANDFILE parameter.
+
 Reference : https://kubernetes.io/docs/concepts/cluster-administration/certificates/#openssl
 
 The ca.crt is the Kubernetes Certificate Authority certificate and ca.key is the Kubernetes Certificate Authority private key.

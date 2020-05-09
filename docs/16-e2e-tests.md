@@ -21,7 +21,7 @@ go get -v -u k8s.io/test-infra/kubetest
 ## Extract the Version
 
 ```
-kubetest --extract=v1.13.0
+kubetest --extract=v1.18.0
 
 cd kubernetes
 

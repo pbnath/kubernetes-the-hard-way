@@ -20,7 +20,7 @@ Generate a certificate and private key for one worker node:
 On master-1:
 
 ```
-master-1$ cat > openssl-worker-1.cnf <<EOF
+cat > openssl-worker-1.cnf <<EOF
 [req]
 req_extensions = v3_req
 distinguished_name = req_distinguished_name

@@ -6,7 +6,7 @@ We chose to use CNI - [weave](https://www.weave.works/docs/net/latest/kubernetes
 
 Download the CNI Plugins required for weave on each of the worker nodes - `worker-1` and `worker-2`
 
-`wget https://github.com/containernetworking/plugins/releases/download/v0.7.5/cni-plugins-amd64-v0.7.5.tgz`
+`wget https://github.com/containernetworking/plugins/releases/download/v0.8.6/cni-plugins-linux-amd64-v0.8.6.tgz`
 
 Extract it to /opt/cni/bin directory
 

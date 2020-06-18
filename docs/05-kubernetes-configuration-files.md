@@ -46,9 +46,9 @@ Results:
 ```
 kube-proxy.kubeconfig
 
-
-Reference docs for kube-proxy [here](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/)
 ```
+
+Reference docs for kube-proxy [here](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/).
 
 ### The kube-controller-manager Kubernetes Configuration File
 
@@ -83,7 +83,7 @@ Results:
 kube-controller-manager.kubeconfig
 ```
 
-Reference docs for kube-controller-manager [here](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/)
+Reference docs for kube-controller-manager [here](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/).
 
 ### The kube-scheduler Kubernetes Configuration File
 
@@ -118,7 +118,7 @@ Results:
 kube-scheduler.kubeconfig
 ```
 
-Reference docs for kube-scheduler [here](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/)
+Reference docs for kube-scheduler [here](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/).
 
 ### The admin Kubernetes Configuration File
 
@@ -153,7 +153,7 @@ Results:
 admin.kubeconfig
 ```
 
-Reference docs for kubeconfig [here](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
+Reference docs for kubeconfig [here](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
 
 ##
 

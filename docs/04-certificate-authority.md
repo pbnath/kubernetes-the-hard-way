@@ -161,7 +161,7 @@ IP.5 = 127.0.0.1
 EOF
 ```
 
-Generates certs for kube-apiserver
+Generate the `kube-apiserver` certificate and private key:
 
 ```
 openssl genrsa -out kube-apiserver.key 2048
@@ -178,7 +178,7 @@ kube-apiserver.key
 
 ### The ETCD Server Certificate
 
-Similarly ETCD server certificate must have addresses of all the servers part of the ETCD cluster
+Similarly ETCD server certificate must have addresses of all the servers part of the ETCD cluster.
 
 The `openssl` command cannot take alternate names as command line parameter. So we must create a `conf` file for it:
 
@@ -199,7 +199,7 @@ IP.3 = 127.0.0.1
 EOF
 ```
 
-Generates certs for ETCD
+Generate the ETCD certifate and private key:
 
 ```
 openssl genrsa -out etcd-server.key 2048

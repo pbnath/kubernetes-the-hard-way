@@ -199,7 +199,7 @@ IP.3 = 127.0.0.1
 EOF
 ```
 
-Generate the ETCD certifate and private key:
+Generate the ETCD certificate and private key:
 
 ```
 openssl genrsa -out etcd-server.key 2048

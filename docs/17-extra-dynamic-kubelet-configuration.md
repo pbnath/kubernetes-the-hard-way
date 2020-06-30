@@ -4,7 +4,7 @@
 
 
 ```
-NODE_NAME="worker-1"; NODE_NAME="worker-1"; curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' > kubelet_configz_${NODE_NAME}
+NODE_NAME="worker-1"; curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' > kubelet_configz_${NODE_NAME}
 ```
 
 ```
@@ -13,7 +13,7 @@ kubectl -n kube-system create configmap nodes-config --from-file=kubelet=kubelet
 
 Edit node to use the dynamically created configuration
 ```
-kubectl edit worker-2
+kubectl edit node worker-2
 ```
 
 Configure Kubelet Service

@@ -6,13 +6,15 @@ Install Go
 wget https://dl.google.com/go/go1.12.1.linux-amd64.tar.gz
 
 sudo tar -C /usr/local -xzf go1.12.1.linux-amd64.tar.gz
-export GOPATH="/home/vagrant/go"
+export GOPATH="/vagrant/go"
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 ```
+> Note: `GOPATH` is set to `/vagrant/go` not `/home/vagrant/go`.  The root filesystem where `/home` is located is too small on the VMs.
 
 ## Install kubetest
 
 ```
+cd /vagrant
 git clone https://github.com/kubernetes/test-infra.git
 cd test-infra/
 GO111MODULE=on go install ./kubetest

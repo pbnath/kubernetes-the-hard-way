@@ -1,6 +1,13 @@
 # Run End-to-End Tests
 
-Install Go
+## Prerequisites
+
+NFS server and client must be installed on the worker VMs.
+```
+sudo apt install nfs-kernel-server nfs-common
+```
+
+## Install Go
 
 ```
 wget https://dl.google.com/go/go1.12.1.linux-amd64.tar.gz

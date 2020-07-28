@@ -167,7 +167,7 @@ for instance in worker-1 worker-2; do
 done
 ```
 
-Copy the appropriate `admin.kubeconfig`, `kube-controller-manager` and `kube-scheduler` kubeconfig files to each controller instance:
+Copy the appropriate `admin.kubeconfig`, `kube-controller-manager` and `kube-scheduler` kubeconfig files to each master instance:
 
 ```
 for instance in master-1 master-2; do

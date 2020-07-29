@@ -24,19 +24,17 @@ wget -q --show-progress --https-only --timestamping \
 Extract and install the `etcd` server and the `etcdctl` command line utility:
 
 ```
-{
   tar -xvf etcd-v3.3.9-linux-amd64.tar.gz
   sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/
-}
+
 ```
 
 ### Configure the etcd Server
 
 ```
-{
   sudo mkdir -p /etc/etcd /var/lib/etcd
   sudo cp ca.crt etcd-server.key etcd-server.crt /etc/etcd/
-}
+
 ```
 
 The instance internal IP address will be used to serve client requests and communicate with etcd cluster peers. Retrieve the internal IP address of the master(etcd) nodes:
@@ -89,11 +87,9 @@ EOF
 ### Start the etcd Server
 
 ```
-{
   sudo systemctl daemon-reload
   sudo systemctl enable etcd
-  sudo systemctl start etcd
-}
+  sudo systemctl start etcd  
 ```
 
 > Remember to run the above commands on each controller node: `master-1`, and `master-2`.

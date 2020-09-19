@@ -14,19 +14,28 @@ The commands in this lab must be run on each controller instance: `master-1`, an
 
 ### Download and Install the etcd Binaries
 
-Download the official etcd release binaries from the [coreos/etcd](https://github.com/coreos/etcd) GitHub project:
+Download the official etcd release binaries from the [coreos/etcd](https://github.com/etcd-io/etcd) GitHub project:
 
 ```
-wget -q --show-progress --https-only --timestamping \
-  "https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz"
+ETCD_VER=v3.3.25
+# choose either URL
+GOOGLE_URL=https://storage.googleapis.com/etcd
+GITHUB_URL=https://github.com/etcd-io/etcd/releases/download
+DOWNLOAD_URL=${GOOGLE_URL}
+
+rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
+rm -rf /tmp/etcd-download-test && mkdir -p /tmp/etcd-download-test
+
+curl -L ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 ```
 
 Extract and install the `etcd` server and the `etcdctl` command line utility:
 
 ```
 {
-  tar -xvf etcd-v3.3.9-linux-amd64.tar.gz
-  sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/
+  tar xzvf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1
+  rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
+  sudo mv /tmp/etcd-download-test/etcd* /usr/local/bin/
 }
 ```
 

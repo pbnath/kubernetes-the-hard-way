@@ -1,6 +1,6 @@
-# Bootstrapping the Kubernetes Worker Nodes
+# Bootstrapping the First Kubernetes Worker Node
 
-In this lab you will bootstrap 2 Kubernetes worker nodes. We already have [Docker](https://www.docker.com) installed on these nodes.
+In this lab you will bootstrap the first worker node. We already have [Docker](https://www.docker.com) installed.
 
 We will now install the kubernetes components
 - [kubelet](https://kubernetes.io/docs/admin/kubelet)

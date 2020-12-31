@@ -54,7 +54,9 @@ Note: In this case, we are restoring the snapshot to a different directory but i
 As a result, the only required option for the restore command is the **--data-dir**.  
 # 4. Modify /etc/kubernetes/manifests/etcd.yaml
 
-Update ETCD POD to use the new hostPath directory `/var/lib/etcd-from-backup` by modifying the pod definition file at `/etc/kubernetes/manifests/etcd.yaml`. When this file is updated, the ETCD pod is automatically re-created as this is a static pod placed under the `/etc/kubernetes/manifests` directory.
+Update ETCD POD to use the new hostPath directory `/var/lib/etcd-from-backup` by modifying the pod definition file at `/etc/kubernetes/manifests/etcd.yaml`. 
+Don't forget to change the "--data-dir=/var/lib/etcd-from-backup". 
+When this file is updated, the ETCD pod is automatically re-created as this is a static pod placed under the `/etc/kubernetes/manifests` directory.
 
 
 Update volumes and volume mounts to point to new path

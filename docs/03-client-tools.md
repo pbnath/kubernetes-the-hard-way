@@ -21,7 +21,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 Move public key of master to all other VMs
 
 ```
-$cat >> ~/.ssh/authorized_keys <<EOF
+$cat .ssh/id_rsa.pub | ssh vagrant@master-2 'cat >>.ssh/authorized_keys'
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 EOF
 ```

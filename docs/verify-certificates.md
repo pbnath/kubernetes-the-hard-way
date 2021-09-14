@@ -11,6 +11,9 @@ cd /home/vagrant
 bash cert_verify.sh
 ```
 
+Note: If "bash cert_verify.sh" script displays an error stating "$'\r': command not found", then run following and continue - this is to convert DOS newlines (CR/LF) to Unix format:
+sed -i 's/.$//' cert_verify.sh
+
 Following are the successful output of script execution under different nodes,
 
 1. VM: Master-1

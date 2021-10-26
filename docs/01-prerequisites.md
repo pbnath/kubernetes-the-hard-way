@@ -26,3 +26,5 @@ Download and Install [Vagrant](https://www.vagrantup.com/) on your platform.
 - Centos
 - Linux
 - macOS
+
+Next: [Provisioning Compute Resources](02-compute-resources.md)

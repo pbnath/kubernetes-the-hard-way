@@ -100,3 +100,4 @@ In such cases delete the VM, then delete the VM folder and then re-provision
 
 `vagrant up`
 
+Next: [Installing the Client Tools](03-client-tools.md)

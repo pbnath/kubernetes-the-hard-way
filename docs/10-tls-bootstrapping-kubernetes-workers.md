@@ -41,8 +41,11 @@ So let's get started!
 
 > Note: We have already configured these in our setup in this course
 
-Copy the ca certificate to the worker node:
+from the master-1 node, copy the ca certificate to the worker-2 node:
 
+```
+master-1$ scp ca.crt worker-2:~/
+```
 
 ## Step 1 Configure the Binaries on the Worker node
 

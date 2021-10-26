@@ -142,8 +142,10 @@ Next we associate the group we created before to the system:node-bootstrapper Cl
 ```
 master-1$ kubectl create clusterrolebinding create-csrs-for-bootstrapping --clusterrole=system:node-bootstrapper --group=system:bootstrappers
 
---------------- OR ---------------
+```
+Or
 
+```
 master-1$ cat > csrs-for-bootstrapping.yaml <<EOF
 # enable bootstrapping nodes to create CSR
 kind: ClusterRoleBinding
@@ -170,8 +172,10 @@ Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kub
 ```
 master-1$ kubectl create clusterrolebinding auto-approve-csrs-for-group --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient --group=system:bootstrappers
 
- --------------- OR ---------------
+```
+ Or
 
+```
 master-1$ cat > auto-approve-csrs-for-group.yaml <<EOF
 # Approve all CSRs for the group "system:bootstrappers"
 kind: ClusterRoleBinding
@@ -201,8 +205,10 @@ We now create the Cluster Role Binding required for the nodes to automatically r
 ```
 master-1$ kubectl create clusterrolebinding auto-approve-renewals-for-nodes --clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeclient --group=system:nodes
 
---------------- OR ---------------
+```
+Or
 
+```
 master-1$ cat > auto-approve-renewals-for-nodes.yaml <<EOF
 # Approve renewal CSRs for the group "system:nodes"
 kind: ClusterRoleBinding

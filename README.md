@@ -27,7 +27,7 @@ Kubernetes The Hard Way guides you through bootstrapping a highly available Kube
 * [Docker Container Runtime](https://github.com/containerd/containerd) 18.06
 * [CNI Container Networking](https://github.com/containernetworking/cni) 0.7.5
 * [Weave Networking](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/)
-* [etcd](https://github.com/coreos/etcd) v3.3.9
+* [etcd](https://github.com/coreos/etcd) v3.5.1
 * [CoreDNS](https://github.com/coredns/coredns) v1.2.2
 
 ## Labs

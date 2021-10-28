@@ -23,6 +23,7 @@ GO111MODULE=on go install ./kubetest
 ## Use the version specific to your cluster
 
 ```
+sudo apt-get install jq -y
 K8S_VERSION=$(kubectl version -o json | jq -r '.serverVersion.gitVersion')
 export KUBERNETES_CONFORMANCE_TEST=y
 export KUBECONFIG="$HOME/.kube/config"

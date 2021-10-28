@@ -1,13 +1,18 @@
 # Dynamic Kubelet Configuration
 
-
-
+From master-1, get the kubelet configuration of node worker-1
 ```
-NODE_NAME="worker-1"; curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' > kubelet_configz_${NODE_NAME}
+NODE_NAME="worker-1"
+curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key \
+  | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' \
+  > kubelet_configz_${NODE_NAME}
 ```
 
+Create the configmap from the kubelet configuration, and get the configmap name after creation. You will need this name in next step.
 ```
-kubectl -n kube-system create configmap nodes-config --from-file=kubelet=kubelet_configz_${NODE_NAME} --append-hash -o yaml
+kubectl -n kube-system create configmap nodes-config --from-file=kubelet=kubelet_configz_${NODE_NAME} \
+  --append-hash -o yaml | grep "  name: " 
+
 ```
 
 Edit `worker-1` node to use the dynamically created configuration
@@ -26,7 +31,9 @@ configSource:
 
 Configure Kubelet Service
 
-Create the `kubelet.service` systemd unit file:
+Next steps need to be performed on worker-1 node.
+
+Login into worker-1 and create the `kubelet.service` systemd unit file:
 
 ```
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
@@ -52,6 +59,14 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+```
+
+Finally, refresh the daemon service and restart kubelet service. You can see it switching to dynamic config on the logs.
+```
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+sleep 60 # (we give it a minute to start)
+sudo systemctl status kubelet
 ```
 
 Reference: https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/

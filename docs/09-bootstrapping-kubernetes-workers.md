@@ -99,7 +99,7 @@ Going forward all activities are to be done on the `worker-1` node.
 
 On worker-1:
 ```
-worker-1$ wget -q --show-progress --https-only --timestamping \
+wget -q --show-progress --https-only --timestamping \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubectl \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-proxy \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubelet

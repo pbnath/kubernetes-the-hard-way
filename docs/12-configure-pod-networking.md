@@ -16,8 +16,7 @@ Reference: https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage
 
 ### Deploy Weave Network
 
-Deploy weave network. Run only once on the `master` node.
-
+Deploy weave network. Run only once on the `master-1` and `master-2`.
 
 `kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"`
 

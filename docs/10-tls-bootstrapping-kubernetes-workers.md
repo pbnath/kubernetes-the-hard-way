@@ -77,9 +77,12 @@ Install the worker binaries:
   sudo mv kubectl kube-proxy kubelet /usr/local/bin/
 }
 ```
-### Move the ca certificate
+### Copy and move the ca certificate
 
-`worker-2$ sudo mv ca.crt /var/lib/kubernetes/`
+```
+master-1$ scp ca.crt worker-2:~/
+worker-2$ sudo mv ca.crt /var/lib/kubernetes/
+```
 
 # Step 1 Create the Boostrap Token to be used by Nodes(Kubelets) to invoke Certificate API
 
@@ -388,13 +391,10 @@ On worker-2:
 
 ```
 NAME                                                   AGE   REQUESTOR                 CONDITION
-csr-95bv6                                              20s   system:node:worker-2      Pending
+node-csr-M4-YivPPoNv9F2_sVl9b1_V4Ra7qXgdzhoLZaLJsTJ8   61s   system:bootstrap:07401b   Approved,Issued
 ```
 
-
-Approve
-
-`master-1$ kubectl certificate approve csr-95bv6`
+No need to approve such as `master-1$ kubectl certificate approve csr-95bv6`
 
 Note: In the event your cluster persists for longer than 365 days, you will need to manually approve the replacement CSR.
 

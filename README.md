@@ -51,13 +51,15 @@ Kubernetes The Hard Way guides you through bootstrapping a highly available Kube
 * [Extra - Dynamic Kubelet Configuration](docs/17-extra-dynamic-kubelet-configuration.md)
 * [Extra - Certificate Verification](docs/verify-certificates.md)
 
-
 ## Architecture
 
-- 2 masters
+- loadbalancer(balance 2 master nodes)
+- 2 master nodes
   - etcd
   - kube-apiserver
   - kube-controller-manager
   - kube-scheduler
-- 2 workers
-- loadbalancer, balance 2 master nodes
+  - pod network (weave)
+- 2 worker nodes
+  - kubelet
+  - kube-proxy

@@ -6,6 +6,8 @@ Download this github repository and cd into the vagrant folder
 
 `git clone https://github.com/mmumshad/kubernetes-the-hard-way.git`
 
+Note: for MacOsX user they have to configure IP address range for VirtualBox before lauching `vagrant up`, see [MacOsX Utilities](../MacOsXUtilities).
+
 CD into vagrant directory
 
 `cd kubernetes-the-hard-way\vagrant`

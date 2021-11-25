@@ -10,8 +10,7 @@ Each kubeconfig requires a Kubernetes API Server to connect to. To support high 
 
 Generate a kubeconfig file suitable for authenticating as the `admin` user:
 
-```
-{
+```shell
   KUBERNETES_LB_ADDRESS=192.168.5.30
 
   kubectl config set-cluster kubernetes-the-hard-way \
@@ -28,7 +27,6 @@ Generate a kubeconfig file suitable for authenticating as the `admin` user:
     --user=admin
 
   kubectl config use-context kubernetes-the-hard-way
-}
 ```
 
 Reference doc for kubectl config [here](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
@@ -37,13 +35,13 @@ Reference doc for kubectl config [here](https://kubernetes.io/docs/tasks/access-
 
 Check the health of the remote Kubernetes cluster:
 
-```
+```shell
 kubectl get componentstatuses
 ```
 
 > output
 
-```
+```shell
 NAME                 STATUS    MESSAGE             ERROR
 controller-manager   Healthy   ok
 scheduler            Healthy   ok
@@ -53,13 +51,13 @@ etcd-0               Healthy   {"health":"true"}
 
 List the nodes in the remote Kubernetes cluster:
 
-```
+```shell
 kubectl get nodes
 ```
 
 > output
 
-```
+```shell
 NAME       STATUS   ROLES    AGE    VERSION
 worker-1   NotReady    <none>   118s   v1.13.0
 worker-2   NotReady    <none>   118s   v1.13.0

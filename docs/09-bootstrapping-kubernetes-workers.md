@@ -9,7 +9,7 @@ We will now install the kubernetes components
 
 ## Prerequisites
 
-The Certificates and Configuration are created on `master-1` node and then copied over to workers using `scp`. 
+The Certificates and Configuration are created on `master-1` node and then copied over to workers using `scp`.
 Once this is done, the commands are to be run on first worker instance: `worker-1`. Login to first worker instance using SSH Terminal.
 
 ### Provisioning Kubelet Client Certificates

@@ -26,4 +26,3 @@ Following are the successful output of script execution under different nodes,
     ![Worker-1-Cert-Verification](./images/worker-1-cert.png)
 
 Any misconfiguration in certificates will be reported in red.
-

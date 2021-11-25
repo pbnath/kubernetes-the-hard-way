@@ -1,23 +1,28 @@
 # Dynamic Kubelet Configuration
 
-`sudo apt install -y jq`
-
-
+```shell
+sudo apt install -y jq
 ```
+
+```shell
 NODE_NAME="worker-1"; curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' > kubelet_configz_${NODE_NAME}
 ```
 
-```
+```shell
 kubectl -n kube-system create configmap nodes-config --from-file=kubelet=kubelet_configz_${NODE_NAME} --append-hash -o yaml
 ```
 
 Edit `worker-1` node to use the dynamically created configuration
-```
-master-1# kubectl edit node worker-1
+
+On master-1:
+
+```shell
+kubectl edit node worker-1
 ```
 
 Add the following YAML bit under `spec`:
-```
+
+```yaml
 configSource:
     configMap:
         name: CONFIG_MAP_NAME # replace CONFIG_MAP_NAME with the name of the ConfigMap
@@ -29,7 +34,7 @@ Configure Kubelet Service
 
 Create the `kubelet.service` systemd unit file:
 
-```
+```shell
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
 Description=Kubernetes Kubelet
@@ -55,4 +60,4 @@ WantedBy=multi-user.target
 EOF
 ```
 
-Reference: https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/
+Reference: [https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/]

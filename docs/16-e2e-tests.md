@@ -2,7 +2,7 @@
 
 Install Go
 
-```
+```shell
 wget https://dl.google.com/go/go1.15.linux-amd64.tar.gz
 
 sudo tar -C /usr/local -xzf go1.15.linux-amd64.tar.gz
@@ -12,7 +12,7 @@ export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 ## Install kubetest
 
-```
+```shell
 git clone https://github.com/kubernetes/test-infra.git
 cd test-infra/
 GO111MODULE=on go install ./kubetest
@@ -22,20 +22,14 @@ GO111MODULE=on go install ./kubetest
 
 ## Use the version specific to your cluster
 
-```
+```shell
 K8S_VERSION=$(kubectl version -o json | jq -r '.serverVersion.gitVersion')
 export KUBERNETES_CONFORMANCE_TEST=y
 export KUBECONFIG="$HOME/.kube/config"
 
-
-
 kubetest --provider=skeleton --test --test_args=”--ginkgo.focus=\[Conformance\]” --extract ${K8S_VERSION} | tee test.out
-
 ```
 
-
-This could take about 1.5 to 2 hours. The number of tests run and passed will be displayed at the end.
-
-  
+This could take about 1.5 to 2 hours. The number of tests run and passed will be displayed at the end.  
 
 Next: [Dynamic Kubelet configuration](17-extra-dynamic-kubelet-configuration.md)

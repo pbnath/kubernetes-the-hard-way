@@ -8,14 +8,14 @@ In this section you will verify the ability to [encrypt secret data at rest](htt
 
 Create a generic secret:
 
-```
+```shell
 kubectl create secret generic kubernetes-the-hard-way \
   --from-literal="mykey=mydata"
 ```
 
 Print a hexdump of the `kubernetes-the-hard-way` secret stored in etcd:
 
-```
+```shell
 sudo ETCDCTL_API=3 etcdctl get \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/etcd/ca.crt \
@@ -26,7 +26,7 @@ sudo ETCDCTL_API=3 etcdctl get \
 
 > output
 
-```
+```sehll
 00000000  2f 72 65 67 69 73 74 72  79 2f 73 65 63 72 65 74  |/registry/secret|
 00000010  73 2f 64 65 66 61 75 6c  74 2f 6b 75 62 65 72 6e  |s/default/kubern|
 00000020  65 74 65 73 2d 74 68 65  2d 68 61 72 64 2d 77 61  |etes-the-hard-wa|
@@ -48,7 +48,10 @@ sudo ETCDCTL_API=3 etcdctl get \
 The etcd key should be prefixed with `k8s:enc:aescbc:v1:key1`, which indicates the `aescbc` provider was used to encrypt the data with the `key1` encryption key.
 
 Cleanup:
-`kubectl delete secret kubernetes-the-hard-way`
+
+```shell
+kubectl delete secret kubernetes-the-hard-way
+```
 
 ## Deployments
 
@@ -56,19 +59,19 @@ In this section you will verify the ability to create and manage [Deployments](h
 
 Create a deployment for the [nginx](https://nginx.org/en/) web server:
 
-```
+```shell
 kubectl create deployment nginx --image=nginx
 ```
 
 List the pod created by the `nginx` deployment:
 
-```
+```shell
 kubectl get pods -l app=nginx
 ```
 
 > output
 
-```
+```shell
 NAME                    READY   STATUS    RESTARTS   AGE
 nginx-dbddb74b8-6lxg2   1/1     Running   0          10s
 ```
@@ -79,25 +82,24 @@ In this section you will verify the ability to access applications remotely usin
 
 Create a service to expose deployment nginx on node ports.
 
-```
+```shell
 kubectl expose deploy nginx --type=NodePort --port 80
 ```
 
-
-```
+```shell
 PORT_NUMBER=$(kubectl get svc -l app=nginx -o jsonpath="{.items[0].spec.ports[0].nodePort}")
 ```
 
 Test to view NGINX page
 
-```
+```shell
 curl http://worker-1:$PORT_NUMBER
 curl http://worker-2:$PORT_NUMBER
 ```
 
 > output
 
-```
+```shell
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,19 +114,19 @@ In this section you will verify the ability to [retrieve container logs](https:/
 
 Retrieve the full name of the `nginx` pod:
 
-```
+```shell
 POD_NAME=$(kubectl get pods -l app=nginx -o jsonpath="{.items[0].metadata.name}")
 ```
 
 Print the `nginx` pod logs:
 
-```
+```shell
 kubectl logs $POD_NAME
 ```
 
 > output
 
-```
+```shell
 10.32.0.1 - - [20/Mar/2019:10:08:30 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.58.0" "-"
 10.40.0.0 - - [20/Mar/2019:10:08:55 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.58.0" "-"
 ```
@@ -135,13 +137,13 @@ In this section you will verify the ability to [execute commands in a container]
 
 Print the nginx version by executing the `nginx -v` command in the `nginx` container:
 
-```
+```shell
 kubectl exec -ti $POD_NAME -- nginx -v
 ```
 
 > output
 
-```
+```shell
 nginx version: nginx/1.15.9
 ```
 

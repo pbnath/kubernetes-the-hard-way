@@ -8,13 +8,13 @@ The commands in this lab must be run on each controller instance: `master-1`, an
 
 ### Running commands in parallel with tmux
 
-[tmux](https://github.com/tmux/tmux/wiki) can be used to run commands on multiple compute instances at the same time. See the [Running commands in parallel with tmux](01-prerequisites.md#running-commands-in-parallel-with-tmux) section in the Prerequisites lab.
+[tmux](https://github.com/tmux/tmux/wiki) can be used to run commands on multiple compute instances at the same time.
 
 ## Provision the Kubernetes Control Plane
 
 Create the Kubernetes configuration directory:
 
-```
+```shell
 sudo mkdir -p /etc/kubernetes/config
 ```
 
@@ -22,53 +22,49 @@ sudo mkdir -p /etc/kubernetes/config
 
 Download the official Kubernetes release binaries:
 
-```
+```shell
 wget -q --show-progress --https-only --timestamping \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-apiserver" \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-controller-manager" \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-scheduler" \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubectl"
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-apiserver" \
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-controller-manager" \
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-scheduler" \
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"
 ```
 
-Reference: https://kubernetes.io/docs/setup/release/#server-binaries
+Reference: [https://kubernetes.io/docs/setup/release/#server-binaries]
 
 Install the Kubernetes binaries:
 
-```
-{
-  chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
-  sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
-}
+```shell
+chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
+sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
 ```
 
 ### Configure the Kubernetes API Server
 
-```
-{
-  sudo mkdir -p /var/lib/kubernetes/
-
-  sudo cp ca.crt ca.key kube-apiserver.crt kube-apiserver.key \
-    service-account.key service-account.crt \
-    etcd-server.key etcd-server.crt \
-    encryption-config.yaml /var/lib/kubernetes/
-}
+```shell
+sudo mkdir -p /var/lib/kubernetes/
+sudo cp ca.crt ca.key kube-apiserver.crt kube-apiserver.key \
+  service-account.key service-account.crt \
+  etcd-server.key etcd-server.crt \
+  /var/lib/kubernetes/
+sudo chmod a+r /var/lib/kubernetes/*.key
 ```
 
 The instance internal IP address will be used to advertise the API Server to members of the cluster. Retrieve the internal IP address for the current compute instance:
 
-```
+```shell
 INTERNAL_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
 ```
 
 Verify it is set
 
-```
+```shell
 echo $INTERNAL_IP
 ```
 
 Create the `kube-apiserver.service` systemd unit file:
 
-```
+```shell
 cat <<EOF | sudo tee /etc/systemd/system/kube-apiserver.service
 [Unit]
 Description=Kubernetes API Server
@@ -87,7 +83,6 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --bind-address=0.0.0.0 \\
   --client-ca-file=/var/lib/kubernetes/ca.crt \\
   --enable-admission-plugins=NodeRestriction,ServiceAccount \\
-  --enable-swagger-ui=true \\
   --enable-bootstrap-token-auth=true \\
   --etcd-cafile=/var/lib/kubernetes/ca.crt \\
   --etcd-certfile=/var/lib/kubernetes/etcd-server.crt \\
@@ -98,9 +93,10 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --kubelet-certificate-authority=/var/lib/kubernetes/ca.crt \\
   --kubelet-client-certificate=/var/lib/kubernetes/kube-apiserver.crt \\
   --kubelet-client-key=/var/lib/kubernetes/kube-apiserver.key \\
-  --kubelet-https=true \\
   --runtime-config=api/all=true \\
   --service-account-key-file=/var/lib/kubernetes/service-account.crt \\
+  --service-account-issuer=https://kubernetes.default.svc.cluster.local \\
+  --service-account-signing-key-file=/var/lib/kubernetes/service-account.key \\
   --service-cluster-ip-range=10.96.0.0/24 \\
   --service-node-port-range=30000-32767 \\
   --tls-cert-file=/var/lib/kubernetes/kube-apiserver.crt \\
@@ -118,13 +114,13 @@ EOF
 
 Copy the `kube-controller-manager` kubeconfig into place:
 
-```
+```shell
 sudo cp kube-controller-manager.kubeconfig /var/lib/kubernetes/
 ```
 
 Create the `kube-controller-manager.service` systemd unit file:
 
-```
+```shell
 cat <<EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
 [Unit]
 Description=Kubernetes Controller Manager
@@ -156,13 +152,13 @@ EOF
 
 Copy the `kube-scheduler` kubeconfig into place:
 
-```
+```shell
 sudo cp kube-scheduler.kubeconfig /var/lib/kubernetes/
 ```
 
 Create the `kube-scheduler.service` systemd unit file:
 
-```
+```shell
 cat <<EOF | sudo tee /etc/systemd/system/kube-scheduler.service
 [Unit]
 Description=Kubernetes Scheduler
@@ -184,24 +180,21 @@ EOF
 
 ### Start the Controller Services
 
-```
-{
-  sudo systemctl daemon-reload
-  sudo systemctl enable kube-apiserver kube-controller-manager kube-scheduler
-  sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
-}
+```shell
+sudo systemctl daemon-reload
+sudo systemctl enable kube-apiserver kube-controller-manager kube-scheduler
+sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 ```
 
 > Allow up to 10 seconds for the Kubernetes API Server to fully initialize.
 
-
 ### Verification
 
-```
+```shell
 kubectl get componentstatuses --kubeconfig admin.kubeconfig
 ```
 
-```
+```shell
 NAME                 STATUS    MESSAGE              ERROR
 controller-manager   Healthy   ok
 scheduler            Healthy   ok
@@ -215,16 +208,15 @@ etcd-1               Healthy   {"health": "true"}
 
 In this section you will provision an external load balancer to front the Kubernetes API Servers. The `kubernetes-the-hard-way` static IP address will be attached to the resulting load balancer.
 
-
 ### Provision a Network Load Balancer
 
 Login to `loadbalancer` instance using SSH Terminal.
 
-```
+```shell
 sudo apt-get update && sudo apt-get install -y haproxy
 ```
 
-```
+```shell
 cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg 
 frontend kubernetes
     bind 192.168.5.30:6443
@@ -241,7 +233,7 @@ backend kubernetes-master-nodes
 EOF
 ```
 
-```
+```shell
 sudo service haproxy restart
 ```
 
@@ -249,13 +241,13 @@ sudo service haproxy restart
 
 Make a HTTP request for the Kubernetes version info:
 
-```
+```shell
 curl  https://192.168.5.30:6443/version -k
 ```
 
 > output
 
-```
+```shell
 {
   "major": "1",
   "minor": "13",

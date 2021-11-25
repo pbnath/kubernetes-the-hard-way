@@ -47,6 +47,12 @@ The instance internal IP address will be used to serve client requests and commu
 INTERNAL_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
 ```
 
+Verify it is set
+
+```shell
+echo $INTERNAL_IP
+```
+
 Each etcd member must have a unique name within an etcd cluster. Set the etcd name to match the hostname of the current compute instance:
 
 ```shell

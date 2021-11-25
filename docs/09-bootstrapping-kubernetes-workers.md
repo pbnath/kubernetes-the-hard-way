@@ -3,6 +3,7 @@
 In this lab you will bootstrap 2 Kubernetes worker nodes. We already have [Docker](https://www.docker.com) installed on these nodes.
 
 We will now install the kubernetes components
+
 - [kubelet](https://kubernetes.io/docs/admin/kubelet)
 - [kube-proxy](https://kubernetes.io/docs/concepts/cluster-administration/proxies).
 
@@ -19,7 +20,7 @@ Generate a certificate and private key for one worker node:
 
 On master-1:
 
-```
+```shell
 cat > openssl-worker-1.cnf <<EOF
 [req]
 req_extensions = v3_req
@@ -41,7 +42,7 @@ openssl x509 -req -in worker-1.csr -CA ca.crt -CAkey ca.key -CAcreateserial  -ou
 
 Results:
 
-```
+```shell
 worker-1.key
 worker-1.crt
 ```
@@ -51,15 +52,16 @@ worker-1.crt
 When generating kubeconfig files for Kubelets the client certificate matching the Kubelet's node name must be used. This will ensure Kubelets are properly authorized by the Kubernetes [Node Authorizer](https://kubernetes.io/docs/admin/authorization/node/).
 
 Get the kub-api server load-balancer IP.
-```
+
+```shell
 LOADBALANCER_ADDRESS=192.168.5.30
 ```
 
 Generate a kubeconfig file for the first worker node.
 
 On master-1:
-```
-{
+
+```shell
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.crt \
     --embed-certs=true \
@@ -78,19 +80,20 @@ On master-1:
     --kubeconfig=worker-1.kubeconfig
 
   kubectl config use-context default --kubeconfig=worker-1.kubeconfig
-}
 ```
 
 Results:
 
-```
+```shell
 worker-1.kubeconfig
 ```
 
-### Copy certificates, private keys and kubeconfig files to the worker node:
+### Copy certificates, private keys and kubeconfig files to the worker node
+
 On master-1:
-```
-master-1$ scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
+
+```shell
+scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
 ```
 
 ### Download and Install Worker Binaries
@@ -98,19 +101,20 @@ master-1$ scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
 Going forward all activities are to be done on the `worker-1` node.
 
 On worker-1:
-```
-worker-1$ wget -q --show-progress --https-only --timestamping \
-  https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubectl \
-  https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-proxy \
-  https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubelet
+
+```shell
+wget -q --show-progress --https-only --timestamping \
+  https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl \
+  https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-proxy \
+  https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubelet
 ```
 
-Reference: https://kubernetes.io/docs/setup/release/#node-binaries
+Reference: [https://kubernetes.io/docs/setup/release/#node-binaries]
 
 Create the installation directories:
 
-```
-worker-1$ sudo mkdir -p \
+```shell
+sudo mkdir -p \
   /etc/cni/net.d \
   /opt/cni/bin \
   /var/lib/kubelet \
@@ -121,27 +125,25 @@ worker-1$ sudo mkdir -p \
 
 Install the worker binaries:
 
-```
-{
-  chmod +x kubectl kube-proxy kubelet
-  sudo mv kubectl kube-proxy kubelet /usr/local/bin/
-}
+```shell
+chmod +x kubectl kube-proxy kubelet
+sudo mv kubectl kube-proxy kubelet /usr/local/bin/
 ```
 
 ### Configure the Kubelet
+
 On worker-1:
-```
-{
-  sudo mv ${HOSTNAME}.key ${HOSTNAME}.crt /var/lib/kubelet/
-  sudo mv ${HOSTNAME}.kubeconfig /var/lib/kubelet/kubeconfig
-  sudo mv ca.crt /var/lib/kubernetes/
-}
+
+```shell
+sudo mv ${HOSTNAME}.key ${HOSTNAME}.crt /var/lib/kubelet/
+sudo mv ${HOSTNAME}.kubeconfig /var/lib/kubelet/kubeconfig
+sudo mv ca.crt /var/lib/kubernetes/
 ```
 
 Create the `kubelet-config.yaml` configuration file:
 
-```
-worker-1$ cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
+```shell
+cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 authentication:
@@ -165,8 +167,8 @@ EOF
 
 Create the `kubelet.service` systemd unit file:
 
-```
-worker-1$ cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
+```shell
+cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
 Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
@@ -192,15 +194,17 @@ EOF
 ```
 
 ### Configure the Kubernetes Proxy
+
 On worker-1:
-```
-worker-1$ sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
+
+```shell
+sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
 ```
 
 Create the `kube-proxy-config.yaml` configuration file:
 
-```
-worker-1$ cat <<EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
+```shell
+cat <<EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
 kind: KubeProxyConfiguration
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 clientConnection:
@@ -212,8 +216,8 @@ EOF
 
 Create the `kube-proxy.service` systemd unit file:
 
-```
-worker-1$ cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
+```shell
+cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
 [Unit]
 Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
@@ -230,29 +234,30 @@ EOF
 ```
 
 ### Start the Worker Services
+
 On worker-1:
-```
-{
-  sudo systemctl daemon-reload
-  sudo systemctl enable kubelet kube-proxy
-  sudo systemctl start kubelet kube-proxy
-}
+
+```shell
+sudo systemctl daemon-reload
+sudo systemctl enable kubelet kube-proxy
+sudo systemctl start kubelet kube-proxy
 ```
 
 > Remember to run the above commands on worker node: `worker-1`
 
 ## Verification
+
 On master-1:
 
 List the registered Kubernetes nodes from the master node:
 
-```
-master-1$ kubectl get nodes --kubeconfig admin.kubeconfig
+```shell
+kubectl get nodes --kubeconfig admin.kubeconfig
 ```
 
 > output
 
-```
+```shell
 NAME       STATUS     ROLES    AGE   VERSION
 worker-1   NotReady   <none>   93s   v1.13.0
 ```

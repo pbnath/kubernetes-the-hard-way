@@ -26,3 +26,10 @@ Download and Install [Vagrant](https://www.vagrantup.com/) on your platform.
 - Centos
 - Linux
 - macOS
+
+## If you use Windows 10 and Hyper-V
+For the image used in the "Getting Started" guide (hashicorp/bionic64), Vagrant tries to use SMBv1 for shared folders.
+Enable SMBv1:
+```
+Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol-Client" -All
+```

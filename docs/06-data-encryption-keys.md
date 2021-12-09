@@ -44,7 +44,7 @@ Move `encryption-config.yaml` encryption config file to appropriate directory.
 
 ```
 for instance in master-1 master-2; do
-  ssh ${instance} sudo mkdir -p /var/lib/kubernetes/  sudo mv encryption-config.yaml /var/lib/kubernetes/
+  ssh ${instance} sudo mkdir -p /var/lib/kubernetes; sudo mv ~/encryption-config.yaml /var/lib/kubernetes/
 done
 ```
 

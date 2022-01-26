@@ -90,7 +90,7 @@ worker-1.kubeconfig
 ### Copy certificates, private keys and kubeconfig files to the worker node:
 On master-1:
 ```
-master-1$ scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
+scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
 ```
 
 ### Download and Install Worker Binaries
@@ -99,7 +99,7 @@ Going forward all activities are to be done on the `worker-1` node.
 
 On worker-1:
 ```
-worker-1$ wget -q --show-progress --https-only --timestamping \
+wget -q --show-progress --https-only --timestamping \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubectl \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-proxy \
   https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubelet
@@ -110,7 +110,7 @@ Reference: https://kubernetes.io/docs/setup/release/#node-binaries
 Create the installation directories:
 
 ```
-worker-1$ sudo mkdir -p \
+sudo mkdir -p \
   /etc/cni/net.d \
   /opt/cni/bin \
   /var/lib/kubelet \
@@ -141,7 +141,7 @@ On worker-1:
 Create the `kubelet-config.yaml` configuration file:
 
 ```
-worker-1$ cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
+cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 authentication:
@@ -166,7 +166,7 @@ EOF
 Create the `kubelet.service` systemd unit file:
 
 ```
-worker-1$ cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
+cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
 Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
@@ -194,13 +194,13 @@ EOF
 ### Configure the Kubernetes Proxy
 On worker-1:
 ```
-worker-1$ sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
+sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
 ```
 
 Create the `kube-proxy-config.yaml` configuration file:
 
 ```
-worker-1$ cat <<EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
+cat <<EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
 kind: KubeProxyConfiguration
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 clientConnection:
@@ -213,7 +213,7 @@ EOF
 Create the `kube-proxy.service` systemd unit file:
 
 ```
-worker-1$ cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
+cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
 [Unit]
 Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
@@ -247,7 +247,7 @@ On master-1:
 List the registered Kubernetes nodes from the master node:
 
 ```
-master-1$ kubectl get nodes --kubeconfig admin.kubeconfig
+kubectl get nodes --kubeconfig admin.kubeconfig
 ```
 
 > output

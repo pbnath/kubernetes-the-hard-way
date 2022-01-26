@@ -120,7 +120,7 @@ stringData:
 EOF
 
 
-master-1$ kubectl create -f bootstrap-token-07401b.yaml
+master-1$ kubectl create -f bootstrap-token-07401b.yaml --kubeconfig admin.kubeconfig
 
 ```
 
@@ -137,7 +137,7 @@ Reference: https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tok
 Next we associate the group we created before to the system:node-bootstrapper ClusterRole. This ClusterRole gives the group enough permissions to bootstrap the kubelet
 
 ```
-master-1$ kubectl create clusterrolebinding create-csrs-for-bootstrapping --clusterrole=system:node-bootstrapper --group=system:bootstrappers
+master-1$ kubectl create clusterrolebinding create-csrs-for-bootstrapping --clusterrole=system:node-bootstrapper --group=system:bootstrappers --kubeconfig admin.kubeconfig
 
 --------------- OR ---------------
 
@@ -158,14 +158,14 @@ roleRef:
 EOF
 
 
-master-1$ kubectl create -f csrs-for-bootstrapping.yaml
+master-1$ kubectl create -f csrs-for-bootstrapping.yaml --kubeconfig admin.kubeconfig
 
 ```
 Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#authorize-kubelet-to-create-csr
 
 ## Step 3 Authorize workers(kubelets) to approve CSR
 ```
-master-1$ kubectl create clusterrolebinding auto-approve-csrs-for-group --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient --group=system:bootstrappers
+master-1$ kubectl create clusterrolebinding auto-approve-csrs-for-group --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient --group=system:bootstrappers --kubeconfig admin.kubeconfig
 
  --------------- OR ---------------
 
@@ -186,7 +186,7 @@ roleRef:
 EOF
 
 
-master-1$ kubectl create -f auto-approve-csrs-for-group.yaml
+master-1$ kubectl create -f auto-approve-csrs-for-group.yaml --kubeconfig admin.kubeconfig
 ```
 
 Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#approval
@@ -196,7 +196,7 @@ Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kub
 We now create the Cluster Role Binding required for the nodes to automatically renew the certificates on expiry. Note that we are NOT using the **system:bootstrappers** group here any more. Since by the renewal period, we believe the node would be bootstrapped and part of the cluster already. All nodes are part of the **system:nodes** group.
 
 ```
-master-1$ kubectl create clusterrolebinding auto-approve-renewals-for-nodes --clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeclient --group=system:nodes
+master-1$ kubectl create clusterrolebinding auto-approve-renewals-for-nodes --clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeclient --group=system:nodes --kubeconfig admin.kubeconfig
 
 --------------- OR ---------------
 
@@ -217,7 +217,7 @@ roleRef:
 EOF
 
 
-master-1$ kubectl create -f auto-approve-renewals-for-nodes.yaml
+master-1$ kubectl create -f auto-approve-renewals-for-nodes.yaml --kubeconfig admin.kubeconfig
 ```
 
 Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#approval
@@ -384,7 +384,7 @@ On worker-2:
 
 ## Step 9 Approve Server CSR
 
-`master-1$ kubectl get csr`
+`master-1$ kubectl get csr`--kubeconfig admin.kubeconfig
 
 ```
 NAME                                                   AGE   REQUESTOR                 CONDITION
@@ -394,7 +394,7 @@ csr-95bv6                                              20s   system:node:worker-
 
 Approve
 
-`master-1$ kubectl certificate approve csr-95bv6`
+`master-1$ kubectl certificate approve csr-95bv6`--kubeconfig admin.kubeconfig
 
 Note: In the event your cluster persists for longer than 365 days, you will need to manually approve the replacement CSR.
 

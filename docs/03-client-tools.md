@@ -26,6 +26,12 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 EOF
 ```
 
+Add the public key to `authorized_keys` on `master-1` so that we can ssh/scp to ourself. This is necessary otherwise the certificate distribution in the next step won't work
+
+```
+cd ~/.ssh
+cat id_rsa.pub >> authorized_keys
+```
 
 ## Install kubectl
 

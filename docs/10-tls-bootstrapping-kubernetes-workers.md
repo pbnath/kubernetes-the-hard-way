@@ -111,8 +111,8 @@ stringData:
   token-id: 07401b
   token-secret: f395accd246ae52d
 
-  # Expiration. Optional.
-  expiration: 2021-03-10T03:22:11Z
+  # Expiration. Optional - but MUST be in the future!!
+  expiration: 2023-03-10T03:22:11Z
 
   # Allowed usages.
   usage-bootstrap-authentication: "true"

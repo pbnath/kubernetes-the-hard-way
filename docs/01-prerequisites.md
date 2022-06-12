@@ -27,8 +27,6 @@ Download and Install [Vagrant](https://www.vagrantup.com/) on your platform.
 - Linux
 - macOS
 
-Next: [Provisioning Compute Resources](./02-compute-resources.md)
-
 ## Running commands in parallel with tmux
 
 In situations where you need to run exactly the same commands on both masters or both workers (comes up in labs 7, 8), this enables you to enter the commands only once and they will be executed on both hosts. If you're not comfortable with tmux then in those labs you should run all the commands at the first host, then ssh to the second host and run the same commands again.
@@ -52,3 +50,6 @@ To run a set of commands on two hosts simultaneously:
 1. Select a pane using the mouse, and in that pane ssh to the other host (e.g. master-2)
 1. Hit `CTRL-X` to enter synchronize-panes mode - now whatever you type or paste at one command prompt will be echoed at the other - i.e. the command is executed at both hosts.
 1. To exit synchronize-panes mode, hit `CTRL-X` again
+
+Next: [Provisioning Compute Resources](./02-compute-resources.md)
+

@@ -198,7 +198,7 @@ kubectl create -f auto-approve-csrs-for-group.yaml
 
 Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#approval
 
-## Step 3 Authorize workers(kubelets) to Auto Renew Certificates on expiration
+## Step 4 Authorize workers(kubelets) to Auto Renew Certificates on expiration
 
 We now create the Cluster Role Binding required for the nodes to automatically renew the certificates on expiry. Note that we are NOT using the **system:bootstrappers** group here any more. Since by the renewal period, we believe the node would be bootstrapped and part of the cluster already. All nodes are part of the **system:nodes** group.
 
@@ -231,7 +231,7 @@ kubectl create -f auto-approve-renewals-for-nodes.yaml
 
 Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#approval
 
-## Step 4 Configure Kubelet to TLS Bootstrap
+## Step 5 Configure Kubelet to TLS Bootstrap
 
 It is now time to configure the second worker to TLS bootstrap using the token we generated
 
@@ -274,7 +274,7 @@ EOF
 
 Reference: https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#kubelet-configuration
 
-## Step 5 Create Kubelet Config File
+## Step 6 Create Kubelet Config File
 
 Create the `kubelet-config.yaml` configuration file:
 
@@ -301,7 +301,7 @@ EOF
 
 > Note: We are not specifying the certificate details - tlsCertFile and tlsPrivateKeyFile - in this file
 
-## Step 6 Configure Kubelet Service
+## Step 7 Configure Kubelet Service
 
 Create the `kubelet.service` systemd unit file:
 
@@ -337,7 +337,7 @@ Things to note here:
 - **cert-dir**: The directory where the generated certificates are stored.
 - **rotate-certificates**: Rotates client certificates when they expire.
 
-## Step 7 Configure the Kubernetes Proxy
+## Step 8 Configure the Kubernetes Proxy
 
 In one of the previous steps we created the kube-proxy.kubeconfig file. Check [here](https://github.com/mmumshad/kubernetes-the-hard-way/blob/master/docs/05-kubernetes-configuration-files.md) if you missed it.
 
@@ -377,7 +377,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## Step 8 Start the Worker Services
+## Step 9 Start the Worker Services
 
 On `worker-2`:
 
@@ -391,7 +391,7 @@ On `worker-2`:
 > Remember to run the above commands on worker node: `worker-2`
 
 
-## Step 9 Approve Server CSR
+## Step 10 Approve Server CSR
 
 On `master-1`
 

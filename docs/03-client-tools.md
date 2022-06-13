@@ -7,14 +7,20 @@ If you are on a Linux laptop, then your laptop could be this system. In my case 
 ## Access all VMs
 
 Generate Key Pair on master-1 node
-`$ssh-keygen`
+```
+ssh-keygen
+```
 
-Leave all settings to default.
+Leave all settings to default (hit ENTER at each prompt).
 
 View the generated public key ID with:
 
 ```
 cat .ssh/id_rsa.pub
+```
+
+> output (truncated)
+```
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 ```
 

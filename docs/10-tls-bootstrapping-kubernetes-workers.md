@@ -18,7 +18,7 @@ This is not a practical approach when you have 1000s of nodes in the cluster, an
 
 In Kubernetes 1.11 a patch was merged to require administrator or Controller approval of node serving CSRs for security reasons.
 
-Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping//#certificate-rotation
+Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#certificate-rotation
 
 So let's get started!
 
@@ -174,7 +174,7 @@ EOF
 kubectl create -f csrs-for-bootstrapping.yaml
 
 ```
-Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping//#authorize-kubelet-to-create-csr
+Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#authorize-kubelet-to-create-csr
 
 ## Step 4 Authorize workers (kubelets) to approve CSR
 ```
@@ -205,7 +205,7 @@ EOF
 kubectl create -f auto-approve-csrs-for-group.yaml
 ```
 
-Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping//#approval
+Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#approval
 
 ## Step 5 Authorize workers (kubelets) to Auto Renew Certificates on expiration
 
@@ -239,7 +239,7 @@ EOF
 kubectl create -f auto-approve-renewals-for-nodes.yaml
 ```
 
-Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping//#approval
+Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#approval
 
 ## Step 6 Configure Kubelet to TLS Bootstrap
 
@@ -289,7 +289,7 @@ users:
 EOF
 ```
 
-Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping//#kubelet-configuration
+Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#kubelet-configuration
 
 ## Step 7 Create Kubelet Config File
 
@@ -430,7 +430,7 @@ kubectl certificate approve csr-95bv6
 
 Note: In the event your cluster persists for longer than 365 days, you will need to manually approve the replacement CSR.
 
-Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping//#kubectl-approval
+Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#kubectl-approval
 
 ## Verification
 

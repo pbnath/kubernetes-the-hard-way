@@ -11,10 +11,10 @@ Generate Key Pair on master-1 node
 
 Leave all settings to default.
 
-View the generated public key ID at:
+View the generated public key ID with:
 
 ```
-$cat .ssh/id_rsa.pub
+cat .ssh/id_rsa.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 ```
 
@@ -22,7 +22,7 @@ Move public key of master to all other VMs. Copy the output of the command above
 Then from your main workstation, do `vagrant ssh ...` replacing `...` with each of the four other VMs, and at each add the public key:
 
 ```
-$cat >> ~/.ssh/authorized_keys <<EOF
+cat >> ~/.ssh/authorized_keys <<EOF
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 EOF
 ```

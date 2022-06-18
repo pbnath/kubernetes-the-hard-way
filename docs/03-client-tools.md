@@ -33,6 +33,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD......8+08b vagrant@master-1
 EOF
 ```
 
+[//]: # (The following addresses https://kodekloud.slack.com/archives/CHMV3P9NV/p1654776577912769)
+
 Finally add the public key to `authorized_keys` on `master-1` so that we can ssh/scp to ourself. This is necessary otherwise the certificate distribution in the next step won't work
 
 ```
@@ -72,5 +74,16 @@ kubectl version --client
 ```
 Client Version: version.Info{Major:"1", Minor:"13", GitVersion:"v1.13.0", GitCommit:"ddf47ac13c1a9483ea035a79cd7c10005ff21a6d", GitTreeState:"clean", BuildDate:"2018-12-03T21:04:45Z", GoVersion:"go1.11.2", Compiler:"gc", Platform:"linux/amd64"}
 ```
+
+### Autocomplete
+
+For ease of entering further `kubectl` commands throughout this lab, you may now optionally install command line autocompletion
+
+```
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)"
+```
+
+Reference : https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete
 
 Next: [Certificate Authority](04-certificate-authority.md)

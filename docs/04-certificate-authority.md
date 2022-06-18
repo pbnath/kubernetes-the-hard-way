@@ -36,7 +36,7 @@ ca.crt
 ca.key
 ```
 
-Reference : https://kubernetes.io/docs/concepts/cluster-administration/certificates/#openssl
+Reference : https://kubernetes.io/docs/tasks/administer-cluster/certificates/#openssl
 
 The ca.crt is the Kubernetes Certificate Authority certificate and ca.key is the Kubernetes Certificate Authority private key.
 You will use the ca.crt file in many places, so it will be copied to many places.

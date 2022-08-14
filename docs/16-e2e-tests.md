@@ -3,9 +3,9 @@
 Install Go
 
 ```
-wget https://dl.google.com/go/go1.12.1.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.15.linux-amd64.tar.gz
 
-sudo tar -C /usr/local -xzf go1.12.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.15.linux-amd64.tar.gz
 export GOPATH="/home/vagrant/go"
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 ```
@@ -35,3 +35,7 @@ kubetest --provider=skeleton --test --test_args=”--ginkgo.focus=\[Conformance\
 
 
 This could take about 1.5 to 2 hours. The number of tests run and passed will be displayed at the end.
+
+  
+
+Next: [Dynamic Kubelet configuration](17-extra-dynamic-kubelet-configuration.md)

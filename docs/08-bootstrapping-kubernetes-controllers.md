@@ -78,7 +78,7 @@ Documentation=https://github.com/kubernetes/kubernetes
 ExecStart=/usr/local/bin/kube-apiserver \\
   --advertise-address=${INTERNAL_IP} \\
   --allow-privileged=true \\
-  --apiserver-count=3 \\
+  --apiserver-count=2 \\
   --audit-log-maxage=30 \\
   --audit-log-maxbackup=3 \\
   --audit-log-maxsize=100 \\
@@ -99,7 +99,7 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --kubelet-client-certificate=/var/lib/kubernetes/kube-apiserver.crt \\
   --kubelet-client-key=/var/lib/kubernetes/kube-apiserver.key \\
   --kubelet-https=true \\
-  --runtime-config=api/all \\
+  --runtime-config=api/all=true \\
   --service-account-key-file=/var/lib/kubernetes/service-account.crt \\
   --service-cluster-ip-range=10.96.0.0/24 \\
   --service-node-port-range=30000-32767 \\
@@ -221,13 +221,11 @@ In this section you will provision an external load balancer to front the Kubern
 Login to `loadbalancer` instance using SSH Terminal.
 
 ```
-#Install HAProxy
-loadbalancer# sudo apt-get update && sudo apt-get install -y haproxy
-
+sudo apt-get update && sudo apt-get install -y haproxy
 ```
 
 ```
-loadbalancer# cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg 
+cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg 
 frontend kubernetes
     bind 192.168.5.30:6443
     option tcplog
@@ -244,7 +242,7 @@ EOF
 ```
 
 ```
-loadbalancer# sudo service haproxy restart
+sudo service haproxy restart
 ```
 
 ### Verification

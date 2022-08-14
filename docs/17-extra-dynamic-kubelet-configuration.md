@@ -4,16 +4,25 @@
 
 
 ```
-NODE_NAME="worker-1"; NODE_NAME="worker-1"; curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' > kubelet_configz_${NODE_NAME}
+NODE_NAME="worker-1"; curl -sSL "https://localhost:6443/api/v1/nodes/${NODE_NAME}/proxy/configz" -k --cert admin.crt --key admin.key | jq '.kubeletconfig|.kind="KubeletConfiguration"|.apiVersion="kubelet.config.k8s.io/v1beta1"' > kubelet_configz_${NODE_NAME}
 ```
 
 ```
 kubectl -n kube-system create configmap nodes-config --from-file=kubelet=kubelet_configz_${NODE_NAME} --append-hash -o yaml
 ```
 
-Edit node to use the dynamically created configuration
+Edit `worker-1` node to use the dynamically created configuration
 ```
-kubectl edit worker-2
+master-1# kubectl edit node worker-1
+```
+
+Add the following YAML bit under `spec`:
+```
+configSource:
+    configMap:
+        name: CONFIG_MAP_NAME # replace CONFIG_MAP_NAME with the name of the ConfigMap
+        namespace: kube-system
+        kubeletConfigKey: kubelet
 ```
 
 Configure Kubelet Service
@@ -45,3 +54,5 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF
 ```
+
+Reference: https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/

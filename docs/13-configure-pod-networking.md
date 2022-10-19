@@ -4,6 +4,21 @@ Container Network Interface (CNI) is a standard interface for managing IP networ
 
 We chose to use CNI - [weave](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) as our networking option.
 
+# Prerequisite on Worker Nodes
+
+Install cni support binaries on worker nodes for weave-net. 
+
+[//]: # (host:worker-1-worker-2)
+
+On `worker-1` & `worker-2`
+
+```bash
+{
+  sudo mkdir -p /opt/cni/bin
+  sudo wget https://github.com/containernetworking/plugins/releases/download/v0.9.0/cni-plugins-linux-amd64-v0.9.0.tgz -P /opt/cni/bin/
+  sudo tar -xzvf /opt/cni/bin/cni-plugins-linux-amd64-v0.9.0.tgz -C /opt/cni/bin/
+}
+```
 
 ### Deploy Weave Network
 

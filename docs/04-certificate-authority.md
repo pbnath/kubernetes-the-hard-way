@@ -55,7 +55,7 @@ Create a CA certificate, then generate a Certificate Signing Request and use it 
 
 
 ```bash
-{
+
   # Create private key for CA
   openssl genrsa -out ca.key 2048
 
@@ -67,7 +67,7 @@ Create a CA certificate, then generate a Certificate Signing Request and use it 
 
   # Self sign the csr using its own private key
   openssl x509 -req -in ca.csr -signkey ca.key -CAcreateserial  -out ca.crt -days 1000
-}
+
 ```
 Results:
 
@@ -91,7 +91,7 @@ In this section you will generate client and server certificates for each Kubern
 Generate the `admin` client certificate and private key:
 
 ```bash
-{
+
   # Generate private key for admin user
   openssl genrsa -out admin.key 2048
 
@@ -100,7 +100,7 @@ Generate the `admin` client certificate and private key:
 
   # Sign certificate for admin user using CA servers private key
   openssl x509 -req -in admin.csr -CA ca.crt -CAkey ca.key -CAcreateserial  -out admin.crt -days 1000
-}
+
 ```
 
 Note that the admin user is part of the **system:masters** group. This is how we are able to perform any administrative operations on Kubernetes cluster using kubectl utility.
@@ -124,7 +124,7 @@ For now let's just focus on the control plane components.
 Generate the `kube-controller-manager` client certificate and private key:
 
 ```bash
-{
+
   openssl genrsa -out kube-controller-manager.key 2048
 
   openssl req -new -key kube-controller-manager.key \
@@ -132,7 +132,7 @@ Generate the `kube-controller-manager` client certificate and private key:
 
   openssl x509 -req -in kube-controller-manager.csr \
     -CA ca.crt -CAkey ca.key -CAcreateserial -out kube-controller-manager.crt -days 1000
-}
+
 ```
 
 Results:
@@ -149,7 +149,7 @@ Generate the `kube-proxy` client certificate and private key:
 
 
 ```bash
-{
+
   openssl genrsa -out kube-proxy.key 2048
 
   openssl req -new -key kube-proxy.key \
@@ -157,7 +157,7 @@ Generate the `kube-proxy` client certificate and private key:
 
   openssl x509 -req -in kube-proxy.csr \
     -CA ca.crt -CAkey ca.key -CAcreateserial  -out kube-proxy.crt -days 1000
-}
+
 ```
 
 Results:
@@ -174,14 +174,14 @@ Generate the `kube-scheduler` client certificate and private key:
 
 
 ```bash
-{
+
   openssl genrsa -out kube-scheduler.key 2048
 
   openssl req -new -key kube-scheduler.key \
     -subj "/CN=system:kube-scheduler/O=system:kube-scheduler" -out kube-scheduler.csr
 
   openssl x509 -req -in kube-scheduler.csr -CA ca.crt -CAkey ca.key -CAcreateserial  -out kube-scheduler.crt -days 1000
-}
+
 ```
 
 Results:
@@ -225,7 +225,7 @@ EOF
 Generate certs for kube-apiserver
 
 ```bash
-{
+
   openssl genrsa -out kube-apiserver.key 2048
 
   openssl req -new -key kube-apiserver.key \
@@ -233,7 +233,7 @@ Generate certs for kube-apiserver
 
   openssl x509 -req -in kube-apiserver.csr \
   -CA ca.crt -CAkey ca.key -CAcreateserial  -out kube-apiserver.crt -extensions v3_req -extfile openssl.cnf -days 1000
-}
+
 ```
 
 Results:
@@ -263,7 +263,7 @@ EOF
 Generate certs for kubelet authentication
 
 ```bash
-{
+
   openssl genrsa -out apiserver-kubelet-client.key 2048
 
   openssl req -new -key apiserver-kubelet-client.key \
@@ -271,7 +271,7 @@ Generate certs for kubelet authentication
 
   openssl x509 -req -in apiserver-kubelet-client.csr \
   -CA ca.crt -CAkey ca.key -CAcreateserial  -out apiserver-kubelet-client.crt -extensions v3_req -extfile openssl-kubelet.cnf -days 1000
-}
+
 ```
 
 Results:
@@ -308,7 +308,7 @@ EOF
 Generates certs for ETCD
 
 ```bash
-{
+
   openssl genrsa -out etcd-server.key 2048
 
   openssl req -new -key etcd-server.key \
@@ -316,7 +316,7 @@ Generates certs for ETCD
 
   openssl x509 -req -in etcd-server.csr \
     -CA ca.crt -CAkey ca.key -CAcreateserial  -out etcd-server.crt -extensions v3_req -extfile openssl-etcd.cnf -days 1000
-}
+
 ```
 
 Results:
@@ -333,7 +333,7 @@ The Kubernetes Controller Manager leverages a key pair to generate and sign serv
 Generate the `service-account` certificate and private key:
 
 ```bash
-{
+
   openssl genrsa -out service-account.key 2048
 
   openssl req -new -key service-account.key \
@@ -341,7 +341,7 @@ Generate the `service-account` certificate and private key:
 
   openssl x509 -req -in service-account.csr \
     -CA ca.crt -CAkey ca.key -CAcreateserial  -out service-account.crt -days 1000
-}
+
 ```
 
 Results:
@@ -372,7 +372,7 @@ If there are any errors, please review above steps and then re-verify
 Copy the appropriate certificates and private keys to each instance:
 
 ```bash
-{
+
 for instance in master-1 master-2; do
   scp ca.crt ca.key kube-apiserver.key kube-apiserver.crt \
     apiserver-kubelet-client.crt apiserver-kubelet-client.key \
@@ -386,7 +386,7 @@ done
 for instance in worker-1 worker-2 ; do
   scp ca.crt kube-proxy.crt kube-proxy.key ${instance}:~/
 done
-}
+
 ```
 
 ## Optional - Check Certificates

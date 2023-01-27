@@ -359,12 +359,6 @@ Run the following, and select option 1 to check all required certificates were g
 ./cert_verify.sh
 ```
 
-> Expected output
-
-```
-PKI generated correctly!
-```
-
 If there are any errors, please review above steps and then re-verify
 
 ## Distribute the Certificates

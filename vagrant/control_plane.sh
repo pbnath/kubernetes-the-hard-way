@@ -150,5 +150,8 @@ sudo chmod 600 /var/lib/kubernetes/*.kubeconfig
     sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 }
 
-sleep 30
+systemctl is-active kube-apiserver
+systemctl is-active kube-controller-manager
+systemctl is-active kube-scheduler
+
 kubectl get componentstatuses --kubeconfig admin.kubeconfig

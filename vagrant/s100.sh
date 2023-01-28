@@ -6,5 +6,8 @@ set -x
 set -e
 set -u
 
-scp cri.sh vagrant@192.168.56.30:/tmp/cri.sh
-ssh vagrant@192.168.56.30 bash -x /tmp/cri.sh
+scp cri.sh vagrant@192.168.56.21:/tmp/cri.sh
+ssh vagrant@192.168.56.21 bash -x /tmp/cri.sh
+
+scp cri.sh vagrant@192.168.56.22:/tmp/cri.sh
+ssh vagrant@192.168.56.22 bash -x /tmp/cri.sh

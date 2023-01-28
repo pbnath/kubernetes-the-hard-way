@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
 # https://github.com/mmumshad/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md#the-kubernetes-frontend-load-balancer
-sudo apt-get update && sudo apt-get install -y haproxy
+
+set -x
+set -e
+set -u
+
+sudo apt-get update
+sudo apt-get install -y haproxy
 
 MASTER_1="$(dig +short master-1)"
 MASTER_2="$(dig +short master-2)"

@@ -5,6 +5,8 @@ set -e
 set -u
 
 bash -x s020.sh
+bash -x cache.sh
+bash -x cache_upload.sh
 bash -x s030.sh
 bash -x s040.sh
 bash -x s050.sh

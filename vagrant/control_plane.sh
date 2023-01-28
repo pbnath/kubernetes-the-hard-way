@@ -4,15 +4,15 @@ set -x
 set -e
 set -u
 
-wget -q --directory-prefix=/tmp --show-progress --https-only --timestamping \
+wget -q --show-progress --https-only --timestamping \
     "https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kube-apiserver" \
     "https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kube-controller-manager" \
     "https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kube-scheduler" \
     "https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kubectl"
 
 {
-    chmod +x /tmp/kube-apiserver /tmp/kube-controller-manager /tmp/kube-scheduler /tmp/kubectl
-    sudo cp /tmp/kube-apiserver /tmp/kube-controller-manager /tmp/kube-scheduler /tmp/kubectl /usr/local/bin/
+    chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
+    sudo cp kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
 }
 
 # https://github.com/mmumshad/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md#configure-the-kubernetes-api-server

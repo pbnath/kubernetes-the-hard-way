@@ -6,7 +6,7 @@ set -x
 set -e
 set -u
 
-wget -q --directory-prefix=/tmp --show-progress --https-only --timestamping \
+wget -q --show-progress --https-only --timestamping \
     https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kubectl \
     https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kube-proxy \
     https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kubelet
@@ -18,8 +18,8 @@ sudo mkdir -p \
     /var/run/kubernetes
 
 {
-    chmod +x /tmp/kubectl /tmp/kube-proxy /tmp/kubelet
-    sudo cp /tmp/kubectl /tmp/kube-proxy /tmp/kubelet /usr/local/bin/
+    chmod +x kubectl kube-proxy kubelet
+    sudo cp kubectl kube-proxy kubelet /usr/local/bin/
 }
 
 {

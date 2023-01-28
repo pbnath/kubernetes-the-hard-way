@@ -7,10 +7,10 @@ set -e
 set -u
 
 cat >/tmp/kubectl_install.sh <<'EOF'
-curl -sSLo /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-install --mode 0755 --group root --owner root /tmp/kubectl /usr/local/bin/kubectl
-rm -f /tmp/kubectl
-kubectl version --output=yaml
+wget -q --directory-prefix=cache --show-progress --https-only --timestamping \
+    https://storage.googleapis.com/kubernetes-release/release/v1.24.3/bin/linux/amd64/kubectl
+chmod +x kubectl
+sudo cp kubectl /usr/local/bin/
 kubectl version -oyaml --client|awk '/gitVersion/{print $2;}'
 EOF
 

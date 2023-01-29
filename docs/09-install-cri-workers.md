@@ -28,7 +28,7 @@ The versions chosen here align with those that are installed by the current `kub
   sudo mkdir -p /opt/cni/bin
 
   sudo chmod +x runc.amd64
-  sudo mv runc.amd64 /usr/local/bin/runc
+  sudo cp runc.amd64 /usr/local/bin/runc
 
   sudo tar -xzvf containerd-${CONTAINERD_VERSION}-linux-amd64.tar.gz -C /usr/local
   sudo tar -xzvf cni-plugins-linux-amd64-v${CNI_VERSION}.tgz -C /opt/cni/bin

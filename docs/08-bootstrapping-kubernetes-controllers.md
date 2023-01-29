@@ -33,7 +33,7 @@ Install the Kubernetes binaries:
 ```bash
 {
   chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
-  sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
+  sudo cp kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
 }
 ```
 
@@ -131,7 +131,7 @@ EOF
 Move the `kube-controller-manager` kubeconfig into place:
 
 ```bash
-sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/
+sudo cp kube-controller-manager.kubeconfig /var/lib/kubernetes/
 ```
 
 Create the `kube-controller-manager.service` systemd unit file:
@@ -176,7 +176,7 @@ EOF
 Move the `kube-scheduler` kubeconfig into place:
 
 ```bash
-sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
+sudo cp kube-scheduler.kubeconfig /var/lib/kubernetes/
 ```
 
 Create the `kube-scheduler.service` systemd unit file:

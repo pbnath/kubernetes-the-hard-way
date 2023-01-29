@@ -2,6 +2,8 @@
 
 # https://github.com/mmumshad/kubernetes-the-hard-way/blob/master/docs/02-compute-resources.md#provisioning-compute-resources
 
+exec &> >(tee -a log.txt)
+
 set -x
 set -e
 set -u

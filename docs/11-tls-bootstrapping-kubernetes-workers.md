@@ -432,8 +432,6 @@ On worker-2:
 }
 ```
 
-[//]: # (sleep:20)
-
 ```bash
 {
   for unit in kubelet kube-proxy; do

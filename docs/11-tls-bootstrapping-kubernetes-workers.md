@@ -436,9 +436,16 @@ On worker-2:
 
 ```bash
 {
-  systemctl is-active kube-apiserver
-  systemctl is-active kubelet
-  systemctl is-active kube-proxy
+  for unit in kubelet kube-proxy; do
+      systemctl show $unit -p SubState,ActiveState
+      while true; do
+          echo Waiting for service $unit
+          if [ $(systemctl is-active $unit) == "active" ]; then
+              break
+          fi
+          sleep 1
+      done
+  done
 }
 ```
 
@@ -478,7 +485,6 @@ Approve the pending certificate. Note that the certificate name `csr-7k8nh` will
 kubectl certificate approve csr-7k8nh --kubeconfig admin.kubeconfig
 ```
 
-
 Note: In the event your cluster persists for longer than 365 days, you will need to manually approve the replacement CSR.
 
 Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#kubectl-approval
@@ -497,6 +503,18 @@ kubectl get nodes --kubeconfig admin.kubeconfig
 NAME       STATUS      ROLES    AGE   VERSION
 worker-1   NotReady    <none>   93s   v1.24.3
 worker-2   NotReady    <none>   93s   v1.24.3
+```
+
+[//]: # (host:master-1)
+
+```bash
+{
+  echo "found csr(s) $(kubectl get csr --kubeconfig admin.kubeconfig --all-namespaces -o jsonpath='{..name}')"
+  for csr in "$(kubectl get csr --kubeconfig admin.kubeconfig --all-namespaces -o jsonpath='{..name}')"; do
+      echo approving csr $csr
+      kubectl certificate approve $csr --kubeconfig admin.kubeconfig
+  done
+}
 ```
 
 Prev: [Bootstrapping the Kubernetes Worker Nodes](10-bootstrapping-kubernetes-workers.md)</br>

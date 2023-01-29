@@ -100,3 +100,18 @@ chmod +x /tmp/stuff2.sh
 
 vagrant scp /tmp/stuff2.sh master-1:/tmp/stuff2.sh
 vagrant ssh master-1 --command 'bash -x /tmp/stuff2.sh'
+
+rm -rf /Users/mtm/pdev/taylormonacelli/kubernetes-the-hard-way/quick-steps/
+python3 /Users/mtm/pdev/taylormonacelli/kubernetes-the-hard-way/tools/lab-script-generator.py --path /Users/mtm/pdev/taylormonacelli/kubernetes-the-hard-way/docs
+ls -1d /Users/mtm/pdev/taylormonacelli/kubernetes-the-hard-way/quick-steps/* | sort -n
+
+vagrant scp /Users/mtm/pdev/taylormonacelli/kubernetes-the-hard-way/quick-steps/ master-1:
+vagrant scp /Users/mtm/pdev/taylormonacelli/kubernetes-the-hard-way/vagrant/cache/ master-1:
+
+ssh -T vagrant@192.168.56.11<<'EOF'
+    for host in master-1 master-2 loadbalancer worker-1 worker-2; do
+        rsync -va quick-steps $host: &
+        rsync -va cache/ $host: &
+    done
+    wait
+EOF

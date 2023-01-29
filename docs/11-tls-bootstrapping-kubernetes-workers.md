@@ -512,6 +512,7 @@ worker-2   NotReady    <none>   93s   v1.24.3
       echo approving csr $csr
       kubectl certificate approve $csr --kubeconfig admin.kubeconfig
   done
+  kubectl get csr --kubeconfig admin.kubeconfig --all-namespaces
 }
 ```
 

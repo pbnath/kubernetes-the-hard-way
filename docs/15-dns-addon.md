@@ -69,6 +69,8 @@ busybox-bd8fb7cbd-vflm9   1/1     Running   0          10s
 
 Execute a DNS lookup for the `kubernetes` service inside the `busybox` pod:
 
+[//]: # (sleep:30)
+
 ```bash
 kubectl get pods -l k8s-app=kube-dns -n kube-system
 ```

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+exec &> >(tee -a log.txt)
+
+
 set -x
 set -e
 set -u

@@ -504,10 +504,12 @@ worker-2   NotReady    <none>   93s   v1.24.3
 ```
 
 [//]: # (host:master-1)
+[//]: # (sleep:20)
 
 ```bash
 {
   echo "found csr(s) $(kubectl get csr --kubeconfig admin.kubeconfig --all-namespaces -o jsonpath='{..name}')"
+  kubectl get csr --kubeconfig admin.kubeconfig --all-namespaces
   for csr in "$(kubectl get csr --kubeconfig admin.kubeconfig --all-namespaces -o jsonpath='{..name}')"; do
       echo approving csr $csr
       kubectl certificate approve $csr --kubeconfig admin.kubeconfig

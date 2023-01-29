@@ -20,10 +20,11 @@ printf '3\n' | ssh master-2 bash -x quick-steps/08a-master-1-master2.sh
 ssh loadbalancer bash -x quick-steps/08b-loadbalancer.sh
 ssh worker-1 bash -x quick-steps/09a-worker-1-worker-2.sh
 ssh worker-2 bash -x quick-steps/09a-worker-1-worker-2.sh
-printf '4\n' | bash -x quick-steps/10a-master-1.sh
+bash -x quick-steps/10a-master-1.sh
 printf '4\n' | ssh worker-1 bash -x quick-steps/10b-worker-1.sh
 bash -x quick-steps/10c-master-1.sh
 printf '5\n' | bash -x quick-steps/11a-master-1.sh
+sleep 30
 printf '5\n' | ssh worker-2 bash -x quick-steps/11b-worker-2.sh
 bash -x quick-steps/11c-master-1.sh
 bash -x quick-steps/11d-master-1.sh

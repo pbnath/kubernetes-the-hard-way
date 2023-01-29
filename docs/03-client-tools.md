@@ -4,6 +4,8 @@ First identify a system from where you will perform administrative tasks, such a
 
 If you are on a Linux laptop, then your laptop could be this system. In my case I chose the `master-1` node to perform administrative tasks. Whichever system you chose make sure that system is able to access all the provisioned VMs through SSH to copy files over.
 
+[//]: # (host:master-1)
+
 ## Access all VMs
 
 Here we create an SSH key pair for the `vagrant` user who we are logged in as. We will copy the public key of this pair to the other master and both workers to permit us to use password-less SSH (and SCP) go get from `master-1` to these other nodes in the context of the `vagrant` user which exists on all nodes.
@@ -43,6 +45,8 @@ Now ssh to each of the other nodes and paste the above from your notepad at each
 The [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl). command line utility is used to interact with the Kubernetes API Server. Download and install `kubectl` from the official release binaries:
 
 Reference: [https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
+[//]: # (host:master-1)
 
 ### Linux
 

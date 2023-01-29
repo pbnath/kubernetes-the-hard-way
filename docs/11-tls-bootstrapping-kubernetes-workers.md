@@ -431,6 +431,17 @@ On worker-2:
   sudo systemctl start kubelet kube-proxy
 }
 ```
+
+[//]: # (sleep:20)
+
+```bash
+{
+  systemctl is-active kube-apiserver
+  systemctl is-active kubelet
+  systemctl is-active kube-proxy
+}
+```
+
 > Remember to run the above commands on worker node: `worker-2`
 
 ### Optional - Check Certificates and kubeconfigs

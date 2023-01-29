@@ -236,7 +236,7 @@ Install the worker binaries:
 ```bash
 {
   chmod +x kubectl kube-proxy kubelet
-  sudo mv kubectl kube-proxy kubelet /usr/local/bin/
+  sudo cp kubectl kube-proxy kubelet /usr/local/bin/
 }
 ```
 Move the certificates and secure them.

@@ -432,8 +432,6 @@ On worker-2:
 }
 ```
 
-[//]: # (sleep:20)
-
 ```bash
 {
   for unit in kubelet kube-proxy; do
@@ -454,6 +452,8 @@ On worker-2:
 ### Optional - Check Certificates and kubeconfigs
 
 At `worker-2` node, run the following, selecting option 5
+
+[//]: # (sleep:5)
 
 ```bash
 ./cert_verify.sh

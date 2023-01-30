@@ -52,9 +52,7 @@ current_host = None
 def write_script(filename: str, script: list):
     path = os.path.join(qs_path, filename)
     with open(path, "wb") as f:
-        f.write(script_open)
         f.write(newline.join(script).encode('utf-8'))
-        f.write(script_close)
     print(f'-> {path}')
 
 

@@ -93,12 +93,8 @@ ssh vagrant@192.168.56.11 bash -x /tmp/stuff.sh
 scp /tmp/stuff.sh vagrant@192.168.56.11:/tmp/stuff.sh
 ssh vagrant@192.168.56.11 bash -x /tmp/stuff.sh
 
-cat >/tmp/stuff2.sh <<EOF
-    for hostname in ${hosts2[@]}; do
-        ssh vagrant@\$hostname ls
+ssh -T vagrant@192.168.56.11 <<EOF
+    for host in ${hosts[@]}; do
+        ssh vagrant@\$host 'sudo apt-get update'
     done
 EOF
-chmod +x /tmp/stuff2.sh
-
-vagrant scp /tmp/stuff2.sh master-1:/tmp/stuff2.sh
-vagrant ssh master-1 --command 'bash -x /tmp/stuff2.sh'

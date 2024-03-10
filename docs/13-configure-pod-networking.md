@@ -7,11 +7,11 @@ We chose to use CNI - [weave](https://www.weave.works/docs/net/latest/kubernetes
 
 ### Deploy Weave Network
 
-Deploy weave network. Run only once on the `master-1` node. You will see a warning, but this is OK.
+Deploy weave network. Run only once on the `controlplane01` node. You will see a warning, but this is OK.
 
-[//]: # (host:master-1)
+[//]: # (host:controlplane01)
 
-On `master-1`
+On `controlplane01`
 
 ```bash
 kubectl apply -f "https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s-1.11.yaml"
@@ -24,7 +24,7 @@ Weave uses POD CIDR of `10.244.0.0/16` by default.
 
 [//]: # (command:kubectl rollout status daemonset weave-net -n kube-system --timeout=90s)
 
-List the registered Kubernetes nodes from the master node:
+List the registered Kubernetes nodes from the controlplane node:
 
 ```bash
 kubectl get pods -n kube-system
@@ -48,8 +48,8 @@ kubectl get nodes
 
 ```
 NAME       STATUS   ROLES    AGE     VERSION
-worker-1   Ready    <none>   4m11s   v1.28.4
-worker-2   Ready    <none>   2m49s   v1.28.4
+node01     Ready    <none>   4m11s   v1.28.4
+node02     Ready    <none>   2m49s   v1.28.4
 ```
 
 Reference: https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/weave-network-policy/#install-the-weave-net-addon

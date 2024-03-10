@@ -4,7 +4,7 @@ In this lab you will complete a series of tasks to ensure your Kubernetes cluste
 
 ## Data Encryption
 
-[//]: # (host:master-1)
+[//]: # (host:controlplane01)
 
 In this section you will verify the ability to [encrypt secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#verifying-that-data-is-encrypted).
 
@@ -97,8 +97,8 @@ PORT_NUMBER=$(kubectl get svc -l app=nginx -o jsonpath="{.items[0].spec.ports[0]
 Test to view NGINX page
 
 ```bash
-curl http://worker-1:$PORT_NUMBER
-curl http://worker-2:$PORT_NUMBER
+curl http://node01:$PORT_NUMBER
+curl http://node02:$PORT_NUMBER
 ```
 
 > output

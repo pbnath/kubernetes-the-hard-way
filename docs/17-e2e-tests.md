@@ -32,7 +32,7 @@ sudo snap install google-cloud-cli --classic
 
 ## Run test
 
-Here we set up a couple of environment variables to supply arguments to the test package - the version of our cluster and the number of CPUs on `master-1` to aid with test parallelization.
+Here we set up a couple of environment variables to supply arguments to the test package - the version of our cluster and the number of CPUs on `controlplane01` to aid with test parallelization.
 
 Then we invoke the test package
 
@@ -45,10 +45,10 @@ kubetest2 noop --kubeconfig ${PWD}/.kube/config --test=ginkgo -- \
   --focus-regex='\[Conformance\]' --test-package-version $KUBE_VERSION --logtostderr --parallel $NUM_CPU
 ```
 
-While this is running, you can open an additional session on `master-1` from your workstation and watch the activity in the cluster
+While this is running, you can open an additional session on `controlplane01` from your workstation and watch the activity in the cluster
 
 ```
-vagrant ssh master-1
+vagrant ssh controlplane01
 ```
 
 then

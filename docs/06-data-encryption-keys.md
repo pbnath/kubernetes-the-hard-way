@@ -6,7 +6,7 @@ In this lab you will generate an encryption key and an [encryption config](https
 
 ## The Encryption Key
 
-[//]: # (host:master-1)
+[//]: # (host:controlplane01)
 
 Generate an encryption key:
 
@@ -37,7 +37,7 @@ EOF
 Copy the `encryption-config.yaml` encryption config file to each controller instance:
 
 ```bash
-for instance in master-1 master-2; do
+for instance in controlplane01 controlplane02; do
   scp encryption-config.yaml ${instance}:~/
 done
 ```
@@ -45,7 +45,7 @@ done
 Move `encryption-config.yaml` encryption config file to appropriate directory.
 
 ```bash
-for instance in master-1 master-2; do
+for instance in controlplane01 controlplane02; do
   ssh ${instance} sudo mkdir -p /var/lib/kubernetes/
   ssh ${instance} sudo mv encryption-config.yaml /var/lib/kubernetes/
 done

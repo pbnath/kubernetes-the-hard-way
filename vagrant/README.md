@@ -17,4 +17,4 @@ A few prerequisites are handled by the VM provisioning steps.
 
 ## Other settings
 
-1. Install configs for `vim` and `tmux` on master-1
+1. Install configs for `vim` and `tmux` on controlplane01

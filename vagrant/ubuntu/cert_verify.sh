@@ -8,11 +8,11 @@ FAILED='\033[0;31;1m'
 NC='\033[0m'
 
 # IP addresses
-INTERNAL_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
-MASTER_1=$(dig +short master-1)
-MASTER_2=$(dig +short master-2)
-WORKER_1=$(dig +short worker-1)
-WORKER_2=$(dig +short worker-2)
+PRIMARY_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
+CONTROL01=$(dig +short controlplane01)
+CONTROL02=$(dig +short controlplane02)
+NODE01=$(dig +short node01)
+NODE02=$(dig +short node02)
 LOADBALANCER=$(dig +short loadbalancer)
 LOCALHOST="127.0.0.1"
 
@@ -76,21 +76,21 @@ SYSTEMD_KS_FILE=/etc/systemd/system/kube-scheduler.service
 ### WORKER NODES ###
 
 # Worker-1 cert details
-WORKER_1_CERT=/var/lib/kubelet/worker-1.crt
-WORKER_1_KEY=/var/lib/kubelet/worker-1.key
+NODE01_CERT=/var/lib/kubelet/node01.crt
+NODE01_KEY=/var/lib/kubelet/node01.key
 
 # Worker-1 kubeconfig location
-WORKER_1_KUBECONFIG=/var/lib/kubelet/kubeconfig
+NODE01_KUBECONFIG=/var/lib/kubelet/kubeconfig
 
 # Worker-1 kubelet config location
-WORKER_1_KUBELET=/var/lib/kubelet/kubelet-config.yaml
+NODE01_KUBELET=/var/lib/kubelet/kubelet-config.yaml
 
-# Systemd worker-1 kubelet location
-SYSTEMD_WORKER_1_KUBELET=/etc/systemd/system/kubelet.service
+# Systemd node01 kubelet location
+SYSTEMD_NODE01_KUBELET=/etc/systemd/system/kubelet.service
 
-# kube-proxy worker-1 location
-WORKER_1_KP_KUBECONFIG=/var/lib/kube-proxy/kubeconfig
-SYSTEMD_WORKER_1_KP=/etc/systemd/system/kube-proxy.service
+# kube-proxy node01 location
+NODE01_KP_KUBECONFIG=/var/lib/kube-proxy/kubeconfig
+SYSTEMD_NODE01_KP=/etc/systemd/system/kube-proxy.service
 
 
 # Function - Master node #
@@ -305,8 +305,8 @@ check_systemd_etcd()
                         exit 1
                 fi
 
-                if [ $IAP_URL == "https://$INTERNAL_IP:2380" ] && [ $LP_URL == "https://$INTERNAL_IP:2380"  ] && [ $LC_URL == "https://$INTERNAL_IP:2379,https://127.0.0.1:2379" ] && \
-                   [ $AC_URL == "https://$INTERNAL_IP:2379" ]
+                if [ $IAP_URL == "https://$PRIMARY_IP:2380" ] && [ $LP_URL == "https://$PRIMARY_IP:2380"  ] && [ $LC_URL == "https://$PRIMARY_IP:2379,https://127.0.0.1:2379" ] && \
+                   [ $AC_URL == "https://$PRIMARY_IP:2379" ]
                     then
                         printf "${SUCCESS}ETCD initial-advertise-peer-urls, listen-peer-urls, listen-client-urls, advertise-client-urls are correct\n${NC}"
                     else
@@ -349,7 +349,7 @@ check_systemd_api()
                 SACERT="${PKI}/service-account.crt"
                 KCCERT="${PKI}/apiserver-kubelet-client.crt"
                 KCKEY="${PKI}/apiserver-kubelet-client.key"
-                if [ $ADVERTISE_ADDRESS == $INTERNAL_IP ] && [ $CLIENT_CA_FILE == $CACERT ] && [ $ETCD_CA_FILE == $CACERT ] && \
+                if [ $ADVERTISE_ADDRESS == $PRIMARY_IP ] && [ $CLIENT_CA_FILE == $CACERT ] && [ $ETCD_CA_FILE == $CACERT ] && \
                    [ $ETCD_CERT_FILE == "${PKI}/etcd-server.crt" ] && [ $ETCD_KEY_FILE == "${PKI}/etcd-server.key" ] && \
                    [ $KUBELET_CERTIFICATE_AUTHORITY == $CACERT ] && [ $KUBELET_CLIENT_CERTIFICATE == $KCCERT ] && [ $KUBELET_CLIENT_KEY == $KCKEY ] && \
                    [ $SERVICE_ACCOUNT_KEY_FILE == $SACERT ] && [ $TLS_CERT_FILE == $APICERT ] && [ $TLS_PRIVATE_KEY_FILE == $APIKEY ]
@@ -435,15 +435,15 @@ if [ ! -z "$1" ]
 then
     choice=$1
 else
-    echo "This script will validate the certificates in master as well as worker-1 nodes. Before proceeding, make sure you ssh into the respective node [ Master or Worker-1 ] for certificate validation"
+    echo "This script will validate the certificates in master as well as node01 nodes. Before proceeding, make sure you ssh into the respective node [ Master or Worker-1 ] for certificate validation"
     while true
     do
         echo
         echo "  1. Verify certificates on Master Nodes after step 4"
         echo "  2. Verify kubeconfigs on Master Nodes after step 5"
         echo "  3. Verify kubeconfigs and PKI on Master Nodes after step 8"
-        echo "  4. Verify kubeconfigs and PKI on worker-1 Node after step 10"
-        echo "  5. Verify kubeconfigs and PKI on worker-2 Node after step 11"
+        echo "  4. Verify kubeconfigs and PKI on node01 Node after step 10"
+        echo "  5. Verify kubeconfigs and PKI on node02 Node after step 11"
         echo
         echo -n "Please select one of the above options: "
         read choice
@@ -469,9 +469,9 @@ SUBJ_APIKC="Subject:CN=kube-apiserver-kubelet-client,O=system:masters"
 case $choice in
 
   1)
-    if ! [ "${HOST}" = "master-1" -o "${HOST}" = "master-2" ]
+    if ! [ "${HOST}" = "controlplane01" -o "${HOST}" = "controlplane02" ]
     then
-        printf "${FAILED}Must run on master-1 or master-2${NC}\n"
+        printf "${FAILED}Must run on controlplane01 or controlplane02${NC}\n"
         exit 1
     fi
 
@@ -486,7 +486,7 @@ case $choice in
     check_cert_and_key "apiserver-kubelet-client" $SUBJ_APIKC $CERT_ISSUER
     check_cert_and_key "etcd-server" $SUBJ_ETCD $CERT_ISSUER
 
-    if [ "${HOST}" = "master-1" ]
+    if [ "${HOST}" = "controlplane01" ]
     then
         check_cert_and_key "admin" $SUBJ_ADMIN $CERT_ISSUER
         check_cert_and_key "kube-proxy" $SUBJ_KP $CERT_ISSUER
@@ -494,9 +494,9 @@ case $choice in
     ;;
 
   2)
-    if ! [ "${HOST}" = "master-1" -o "${HOST}" = "master-2" ]
+    if ! [ "${HOST}" = "controlplane01" -o "${HOST}" = "controlplane02" ]
     then
-        printf "${FAILED}Must run on master-1 or master-2${NC}\n"
+        printf "${FAILED}Must run on controlplane01 or controlplane02${NC}\n"
         exit 1
     fi
 
@@ -504,16 +504,16 @@ case $choice in
     check_kubeconfig_exists "kube-controller-manager" $HOME
     check_kubeconfig_exists "kube-scheduler" $HOME
 
-    if [ "${HOST}" = "master-1" ]
+    if [ "${HOST}" = "controlplane01" ]
     then
         check_kubeconfig_exists "kube-proxy" $HOME
     fi
     ;;
 
   3)
-    if ! [ "${HOST}" = "master-1" -o "${HOST}" = "master-2" ]
+    if ! [ "${HOST}" = "controlplane01" -o "${HOST}" = "controlplane02" ]
     then
-        printf "${FAILED}Must run on master-1 or master-2${NC}\n"
+        printf "${FAILED}Must run on controlplane01 or controlplane02${NC}\n"
         exit 1
     fi
 
@@ -540,24 +540,24 @@ case $choice in
     ;;
 
   4)
-    if ! [ "${HOST}" = "worker-1" ]
+    if ! [ "${HOST}" = "node01" ]
     then
-        printf "${FAILED}Must run on worker-1${NC}\n"
+        printf "${FAILED}Must run on node01${NC}\n"
         exit 1
     fi
 
     CERT_LOCATION=/var/lib/kubernetes/pki
     check_cert_only "ca" $SUBJ_CA $CERT_ISSUER
     check_cert_and_key "kube-proxy" $SUBJ_KP $CERT_ISSUER
-    check_cert_and_key "worker-1" "Subject:CN=system:node:worker-1,O=system:nodes" $CERT_ISSUER
+    check_cert_and_key "node01" "Subject:CN=system:node:node01,O=system:nodes" $CERT_ISSUER
     check_kubeconfig "kube-proxy" "/var/lib/kube-proxy" "https://${LOADBALANCER}:6443"
     check_kubeconfig "kubelet" "/var/lib/kubelet" "https://${LOADBALANCER}:6443"
     ;;
 
   5)
-    if ! [ "${HOST}" = "worker-2" ]
+    if ! [ "${HOST}" = "node02" ]
     then
-        printf "${FAILED}Must run on worker-2${NC}\n"
+        printf "${FAILED}Must run on node02${NC}\n"
         exit 1
     fi
 
@@ -566,7 +566,7 @@ case $choice in
     check_cert_and_key "kube-proxy" $SUBJ_KP $CERT_ISSUER
 
     CERT_LOCATION=/var/lib/kubelet/pki
-    check_cert_only "kubelet-client-current" "Subject:O=system:nodes,CN=system:node:worker-2" $CERT_ISSUER
+    check_cert_only "kubelet-client-current" "Subject:O=system:nodes,CN=system:node:node02" $CERT_ISSUER
     check_kubeconfig "kube-proxy" "/var/lib/kube-proxy" "https://${LOADBALANCER}:6443"
     ;;
 

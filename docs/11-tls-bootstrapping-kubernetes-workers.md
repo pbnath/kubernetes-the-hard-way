@@ -43,9 +43,9 @@ So let's get started!
 
 # Step 1 Create the Boostrap Token to be used by Nodes(Kubelets) to invoke Certificate API
 
-[//]: # (host:master-1)
+[//]: # (host:controlplane01)
 
-Run the following steps on `master-1`
+Run the following steps on `controlplane01`
 
 For the workers(kubelet) to access the Certificates API, they need to authenticate to the kubernetes api-server first. For this we create a [Bootstrap Token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) to be used by the kubelet
 
@@ -206,9 +206,9 @@ Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-b
 
 ## Step 5 Configure the Binaries on the Worker node
 
-Going forward all activities are to be done on the `worker-2` node until [step 11](#step-11-approve-server-csr).
+Going forward all activities are to be done on the `node02` node until [step 11](#step-11-approve-server-csr).
 
-[//]: # (host:worker-2)
+[//]: # (host:node02)
 
 ### Download and Install Worker Binaries
 
@@ -256,10 +256,10 @@ Move the certificates and secure them.
 
 It is now time to configure the second worker to TLS bootstrap using the token we generated
 
-For worker-1 we started by creating a kubeconfig file with the TLS certificates that we manually generated.
+For `node01` we started by creating a kubeconfig file with the TLS certificates that we manually generated.
 Here, we don't have the certificates yet. So we cannot create a kubeconfig file. Instead we create a bootstrap-kubeconfig file with information about the token we created.
 
-This is to be done on the `worker-2` node. Note that now we have set up the load balancer to provide high availibilty across the API servers, we point kubelet to the load balancer.
+This is to be done on the `node02` node. Note that now we have set up the load balancer to provide high availibilty across the API servers, we point kubelet to the load balancer.
 
 Set up some shell variables for nodes and services we will require in the following configurations:
 
@@ -431,7 +431,7 @@ EOF
 
 ## Step 10 Start the Worker Services
 
-On worker-2:
+On node02:
 
 ```bash
 {
@@ -440,11 +440,11 @@ On worker-2:
   sudo systemctl start kubelet kube-proxy
 }
 ```
-> Remember to run the above commands on worker node: `worker-2`
+> Remember to run the above commands on worker node: `node02`
 
 ### Optional - Check Certificates and kubeconfigs
 
-At `worker-2` node, run the following, selecting option 5
+At `node02` node, run the following, selecting option 5
 
 [//]: # (command:sleep 5)
 [//]: # (command:./cert_verify.sh 5)
@@ -456,11 +456,11 @@ At `worker-2` node, run the following, selecting option 5
 
 ## Step 11 Approve Server CSR
 
-Now, go back to `master-1` and approve the pending kubelet-serving certificate
+Now, go back to `controlplane01` and approve the pending kubelet-serving certificate
 
-[//]: # (host:master-1)
+[//]: # (host:controlplane01)
 [//]: # (command:sudo apt install -y jq)
-[//]: # (command:kubectl certificate approve --kubeconfig admin.kubeconfig $(kubectl get csr --kubeconfig admin.kubeconfig -o json | jq -r '.items | .[]  | select(.spec.username == "system:node:worker-2") | .metadata.name'))
+[//]: # (command:kubectl certificate approve --kubeconfig admin.kubeconfig $(kubectl get csr --kubeconfig admin.kubeconfig -o json | jq -r '.items | .[]  | select(.spec.username == "system:node:node02") | .metadata.name'))
 
 ```bash
 kubectl get csr --kubeconfig admin.kubeconfig
@@ -470,7 +470,7 @@ kubectl get csr --kubeconfig admin.kubeconfig
 
 ```
 NAME        AGE   SIGNERNAME                                    REQUESTOR                 REQUESTEDDURATION   CONDITION
-csr-7k8nh   85s   kubernetes.io/kubelet-serving                 system:node:worker-2      <none>              Pending
+csr-7k8nh   85s   kubernetes.io/kubelet-serving                 system:node:node02        <none>              Pending
 csr-n7z8p   98s   kubernetes.io/kube-apiserver-client-kubelet   system:bootstrap:07401b   <none>              Approved,Issued
 ```
 
@@ -487,7 +487,7 @@ Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-b
 
 ## Verification
 
-List the registered Kubernetes nodes from the master node:
+List the registered Kubernetes nodes from the controlplane node:
 
 ```bash
 kubectl get nodes --kubeconfig admin.kubeconfig
@@ -497,8 +497,8 @@ kubectl get nodes --kubeconfig admin.kubeconfig
 
 ```
 NAME       STATUS      ROLES    AGE   VERSION
-worker-1   NotReady    <none>   93s   v1.28.4
-worker-2   NotReady    <none>   93s   v1.28.4
+node01     NotReady    <none>   93s   v1.28.4
+node02     NotReady    <none>   93s   v1.28.4
 ```
 
 Prev: [Bootstrapping the Kubernetes Worker Nodes](10-bootstrapping-kubernetes-workers.md)</br>

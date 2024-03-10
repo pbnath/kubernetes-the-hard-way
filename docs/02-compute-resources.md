@@ -27,7 +27,7 @@ vagrant up
 
 This does the below:
 
-- Deploys 5 VMs - 2 Master, 2 Worker and 1 Loadbalancer with the name 'kubernetes-ha-* '
+- Deploys 5 VMs - 2 controlplane, 2 worker and 1 loadbalancer with the name 'kubernetes-ha-* '
     > This is the default settings. This can be changed at the top of the Vagrant file.
     > If you choose to change these settings, please also update `vagrant/ubuntu/vagrant/setup-hosts.sh`
     > to add the additional hosts to the `/etc/hosts` default before running `vagrant up`.
@@ -36,10 +36,10 @@ This does the below:
 
     | VM            |  VM Name               | Purpose       | IP            | Forwarded Port   | RAM  |
     | ------------  | ---------------------- |:-------------:| -------------:| ----------------:|-----:|
-    | master-1      | kubernetes-ha-master-1 | Master        | 192.168.56.11 |     2711         | 2048 |
-    | master-2      | kubernetes-ha-master-2 | Master        | 192.168.56.12 |     2712         | 1024 |
-    | worker-1      | kubernetes-ha-worker-1 | Worker        | 192.168.56.21 |     2721         | 512  |
-    | worker-2      | kubernetes-ha-worker-2 | Worker        | 192.168.56.22 |     2722         | 1024 |
+    | controlplane01      | kubernetes-ha-controlplane01 | Master        | 192.168.56.11 |     2711         | 2048 |
+    | controlplane02      | kubernetes-ha-controlplane02 | Master        | 192.168.56.12 |     2712         | 1024 |
+    | node01      | kubernetes-ha-node01 | Worker        | 192.168.56.21 |     2721         | 512  |
+    | node02      | kubernetes-ha-node02 | Worker        | 192.168.56.22 |     2722         | 1024 |
     | loadbalancer  | kubernetes-ha-lb       | LoadBalancer  | 192.168.56.30 |     2730         | 1024 |
 
     > These are the default settings. These can be changed in the Vagrant file
@@ -57,7 +57,7 @@ There are two ways to SSH into the nodes:
 
 ### 1. SSH using Vagrant
 
-  From the directory you ran the `vagrant up` command, run `vagrant ssh \<vm\>` for example `vagrant ssh master-1`.
+  From the directory you ran the `vagrant up` command, run `vagrant ssh \<vm\>` for example `vagrant ssh controlplane01`.
   > Note: Use VM field from the above table and not the VM name itself.
 
 ### 2. SSH Using SSH Client Tools
@@ -100,15 +100,15 @@ Sometimes the delete does not delete the folder created for the VM and throws an
 
 VirtualBox error:
 
-    VBoxManage.exe: error: Could not rename the directory 'D:\VirtualBox VMs\ubuntu-bionic-18.04-cloudimg-20190122_1552891552601_76806' to 'D:\VirtualBox VMs\kubernetes-ha-worker-2' to save the settings file (VERR_ALREADY_EXISTS)
+    VBoxManage.exe: error: Could not rename the directory 'D:\VirtualBox VMs\ubuntu-bionic-18.04-cloudimg-20190122_1552891552601_76806' to 'D:\VirtualBox VMs\kubernetes-ha-node02' to save the settings file (VERR_ALREADY_EXISTS)
     VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component SessionMachine, interface IMachine, callee IUnknown
     VBoxManage.exe: error: Context: "SaveSettings()" at line 3105 of file VBoxManageModifyVM.cpp
 
 In such cases delete the VM, then delete the VM folder and then re-provision, e.g.
 
 ```bash
-vagrant destroy worker-2
-rmdir "\<path-to-vm-folder\>\kubernetes-ha-worker-2
+vagrant destroy node02
+rmdir "\<path-to-vm-folder\>\kubernetes-ha-node02
 vagrant up
 ```
 

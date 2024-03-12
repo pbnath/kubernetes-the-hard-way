@@ -30,12 +30,16 @@ Copy the key to the other hosts. You will be asked to enter a password for each 
 
 The option `-o StrictHostKeyChecking=no` tells it not to ask if you want to connect to a previously unknown host. Not best practice in the real world, but speeds things up here.
 
+`$(id -u)` selects the appropriate user name to connect to the remote VMs. On VirtualBox this evaluates to `vagrant`; on Apple Silicon it is `ubuntu`.
+
 ```bash
-ssh-copy-id -o StrictHostKeyChecking=no vagrant@controlplane02
-ssh-copy-id -o StrictHostKeyChecking=no vagrant@loadbalancer
-ssh-copy-id -o StrictHostKeyChecking=no vagrant@node01
-ssh-copy-id -o StrictHostKeyChecking=no vagrant@node02
+ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@controlplane02
+ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@loadbalancer
+ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@node01
+ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@node02
 ```
+
+
 
 For each host, the output should be similar to this. If it is not, then you may have entered an incorrect password. Retry the step.
 

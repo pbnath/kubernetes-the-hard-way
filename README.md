@@ -43,26 +43,6 @@ We will be building the following:
 
 ## Getting Started
 
-* If you are using Windows or Intel Mac, start here.
-* If you are using Apple Silicon Mac (M1/M2/M3), start here.
+* If you are using Windows or Intel Mac, start [here](./VirtualBox/docs/01-prerequisites.md) to deploy VirtualBox and Vagrant.
+* If you are using Apple Silicon Mac (M1/M2/M3), start [here](./apple-silicon/docs/01-prerequisites.md) to deploy Multipass.
 
-## Labs
-
-* [Prerequisites](docs/01-prerequisites.md)
-* [Provisioning Compute Resources](docs/02-compute-resources.md)
-* [Installing the Client Tools](docs/03-client-tools.md)
-* [Provisioning the CA and Generating TLS Certificates](docs/04-certificate-authority.md)
-* [Generating Kubernetes Configuration Files for Authentication](docs/05-kubernetes-configuration-files.md)
-* [Generating the Data Encryption Config and Key](docs/06-data-encryption-keys.md)
-* [Bootstrapping the etcd Cluster](docs/07-bootstrapping-etcd.md)
-* [Bootstrapping the Kubernetes Control Plane](docs/08-bootstrapping-kubernetes-controllers.md)
-* [Installing CRI on Worker Nodes](docs/09-install-cri-workers.md)
-* [Bootstrapping the Kubernetes Worker Nodes](docs/10-bootstrapping-kubernetes-workers.md)
-* [TLS Bootstrapping the Kubernetes Worker Nodes](docs/11-tls-bootstrapping-kubernetes-workers.md)
-* [Configuring kubectl for Remote Access](docs/12-configuring-kubectl.md)
-* [Deploy Weave - Pod Networking Solution](docs/13-configure-pod-networking.md)
-* [Kube API Server to Kubelet Configuration](docs/14-kube-apiserver-to-kubelet.md)
-* [Deploying the DNS Cluster Add-on](docs/15-dns-addon.md)
-* [Smoke Test](docs/16-smoke-test.md)
-* [E2E Test](docs/17-e2e-tests.md)
-* [Extra - Certificate Verification](docs/verify-certificates.md)

@@ -399,5 +399,5 @@ At `controlplane02` node run the following, selecting option 1
 ./cert_verify.sh
 ```
 
-Prev: [Client tools](03-client-tools.md)<br>
-Next: [Generating Kubernetes Configuration Files for Authentication](05-kubernetes-configuration-files.md)
+Next: [Generating Kubernetes Configuration Files for Authentication](05-kubernetes-configuration-files.md)<br>
+Prev: [Client tools](03-client-tools.md)

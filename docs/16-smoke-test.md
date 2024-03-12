@@ -160,5 +160,5 @@ kubectl delete service -n default nginx
 kubectl delete deployment -n default nginx
 ```
 
-Prev: [DNS Addon](15-dns-addon.md)</br>
-Next: [End to End Tests](17-e2e-tests.md)
+Next: [End to End Tests](17-e2e-tests.md)</br>
+Prev: [DNS Addon](15-dns-addon.md)

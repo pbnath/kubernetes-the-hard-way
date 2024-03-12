@@ -14,7 +14,7 @@ CD into vagrant directory:
 cd kubernetes-the-hard-way/vagrant
 ```
 
-The `Vagrantfile` is configured to assume you have at least an 8 core CPU which most modern core i5, i7 and i9 do, and at least 16GB RAM. You can tune these values expecially if you have *less* than this by editing the `Vagrantfile` before the next step below and adjusting the values for `RAM_SIZE` and `CPU_CORES` accordingly.
+The `Vagrantfile` is configured to assume you have at least an 8 core CPU which most modern core i5, i7 and i9 do, and at least 16GB RAM. You can tune these values especially if you have *less* than this by editing the `Vagrantfile` before the next step below and adjusting the values for `RAM_SIZE` and `CPU_CORES` accordingly.
 
 This will not work if you have less than 8GB of RAM.
 
@@ -49,7 +49,7 @@ This does the below:
 
 - Sets required kernel settings for kubernetes networking to function correctly.
 
-See [Vagrant page](../vagrant/README.md) for details.
+See [Vagrant page](../../vagrant/README.md) for details.
 
 ## SSH to the nodes
 
@@ -137,5 +137,5 @@ To power on again:
 vagrant up
 ```
 
-Prev: [Prerequisites](01-prerequisites.md)<br>
-Next: [Client tools](03-client-tools.md)
+Next: [Client tools](../../docs/03-client-tools.md)<br>
+Prev: [Prerequisites](01-prerequisites.md)

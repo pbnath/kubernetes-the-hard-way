@@ -75,5 +75,5 @@ node01     NotReady    <none>   118s   v1.28.4
 node02     NotReady    <none>   118s   v1.28.4
 ```
 
-Prev: [TLS Bootstrapping Kubernetes Workers](11-tls-bootstrapping-kubernetes-workers.md)</br>
-Next: [Deploy Pod Networking](13-configure-pod-networking.md)
+Next: [Deploy Pod Networking](13-configure-pod-networking.md)</br>
+Prev: [TLS Bootstrapping Kubernetes Workers](11-tls-bootstrapping-kubernetes-workers.md)

@@ -108,5 +108,5 @@ The connection to the server localhost:8080 was refused - did you specify the ri
 
 Don't worry about the error at the end as it is expected. We have not set anything up yet!
 
-Prev: [Compute Resources](02-compute-resources.md)<br>
-Next: [Certificate Authority](04-certificate-authority.md)
+Next: [Certificate Authority](04-certificate-authority.md)<br>
+Prev: Compute Resources ([VirtualBox](../VirtualBox/docs/02-compute-resources.md)), ([Apple Silicon](../apple-silicon/docs/02-compute-resources.md))

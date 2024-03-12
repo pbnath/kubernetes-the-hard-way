@@ -331,5 +331,5 @@ curl -k https://${LOADBALANCER}:6443/version
 }
 ```
 
-Prev: [Bootstrapping the etcd Cluster](07-bootstrapping-etcd.md)<br>
-Next: [Installing CRI on the Kubernetes Worker Nodes](09-install-cri-workers.md)
+Next: [Installing CRI on the Kubernetes Worker Nodes](09-install-cri-workers.md)<br>
+Prev: [Bootstrapping the etcd Cluster](07-bootstrapping-etcd.md)

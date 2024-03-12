@@ -54,5 +54,5 @@ node02     Ready    <none>   2m49s   v1.28.4
 
 Reference: https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/weave-network-policy/#install-the-weave-net-addon
 
-Prev: [Configuring Kubectl](12-configuring-kubectl.md)</br>
-Next: [Kube API Server to Kubelet Connectivity](14-kube-apiserver-to-kubelet.md)
+Next: [Kube API Server to Kubelet Connectivity](14-kube-apiserver-to-kubelet.md)</br>
+Prev: [Configuring Kubectl](12-configuring-kubectl.md)

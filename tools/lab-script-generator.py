@@ -43,6 +43,7 @@ newline = chr(10)       # In case running on Windows (plus writing files as bina
 file_number_rx = re.compile(r'^(?P<number>\d+)')
 comment_rx = re.compile(r'^\[//\]:\s\#\s\((?P<token>\w+):(?P<value>.*)\)\s*$')
 choice_rx = re.compile(r'^\s*-+\s+OR\s+-+')
+script_begin_rx = re.compile(r'^(?P<indent>\s*)```bash')
 script_begin = '```bash'
 script_end = '```'
 script_open = ('{' + newline).encode('utf-8')
@@ -60,6 +61,7 @@ def write_script(filename: str, script: list):
 
 output_file_no = 1
 script = []
+indent = 0
 output_file = None
 for doc in glob.glob(os.path.join(docs_path, '*.md')):
     print(doc)
@@ -128,12 +130,14 @@ for doc in glob.glob(os.path.join(docs_path, '*.md')):
                             '#######################################################################',
                             newline
                         ])
-                elif line == script_begin:
+                elif script_begin_rx.match(line):
+                    m = script_begin_rx.match(line)
+                    indent = len(m['indent'])
                     state = State.SCRIPT
                 elif choice_rx.match(line):
                     ignore_next_script = True
             elif state == State.SCRIPT:
-                if line == script_end:
+                if line == (' ' * indent) + script_end:
                     state = State.NONE
                     script.append(newline)
                     ignore_next_script = False
@@ -141,8 +145,8 @@ for doc in glob.glob(os.path.join(docs_path, '*.md')):
                 #     script.append('}')
                 #     script.append(line)
                 #     script.append('{')
-                elif not (ignore_next_script or line == '{' or line == '}'):
-                    script.append(line)
+                elif not (ignore_next_script or line == (' ' * indent) + '{' or line == (' ' * indent) + '}'):
+                    script.append(line[indent:])
 if script:
     # fns = '-'.join(file_nos[1:])
     output_file = os.path.join(qs_path, f'{output_file_no}-{current_host}.sh')

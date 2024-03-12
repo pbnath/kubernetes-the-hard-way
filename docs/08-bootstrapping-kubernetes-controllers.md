@@ -62,7 +62,6 @@ The instance internal IP address will be used to advertise the API Server to mem
 Retrieve these internal IP addresses:
 
 ```bash
-PRIMARY_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
 LOADBALANCER=$(dig +short loadbalancer)
 ```
 
@@ -264,7 +263,7 @@ In this section you will provision an external load balancer to front the Kubern
 
 A NLB operates at [layer 4](https://en.wikipedia.org/wiki/OSI_model#Layer_4:_Transport_layer) (TCP) meaning it passes the traffic straight through to the back end servers unfettered and does not interfere with the TLS process, leaving this to the Kube API servers.
 
-Login to `loadbalancer` instance using SSH Terminal.
+Login to `loadbalancer` instance using `vagrant ssh` (or `multipass shell` on Apple Silicon).
 
 [//]: # (host:loadbalancer)
 
@@ -282,6 +281,8 @@ LOADBALANCER=$(dig +short loadbalancer)
 ```
 
 Create HAProxy configuration to listen on API server port on this host and distribute requests evently to the two controlplane nodes.
+
+We configure it to operate as a [layer 4](https://en.wikipedia.org/wiki/Transport_layer) loadbalancer (using `mode tcp`), which means it forwards any traffic directly to the backends without doing anything like [SSL offloading](https://ssl2buy.com/wiki/ssl-offloading).
 
 ```bash
 cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
@@ -311,7 +312,7 @@ sudo systemctl restart haproxy
 Make a HTTP request for the Kubernetes version info:
 
 ```bash
-curl  https://${LOADBALANCER}:6443/version -k
+curl -k https://${LOADBALANCER}:6443/version
 ```
 
 > output

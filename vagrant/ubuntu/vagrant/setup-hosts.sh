@@ -4,9 +4,15 @@
 set -e
 IFNAME=$1
 THISHOST=$2
-ADDRESS="$(ip -4 addr show $IFNAME | grep "inet" | head -1 |awk '{print $2}' | cut -d/ -f1)"
-NETWORK=$(echo $ADDRESS | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s", $1, $2, $3) }')
-sed -e "s/^.*${HOSTNAME}.*/${ADDRESS} ${HOSTNAME} ${HOSTNAME}.local/" -i /etc/hosts
+
+# Host will have 3 interfaces: lo, DHCP assigned NAT network and static on VM network
+# We want the VM network
+PRIMARY_IP="$(ip -4 addr show | grep "inet" | egrep -v '(dynamic|127\.0\.0)' | awk '{print $2}' | cut -d/ -f1)"
+NETWORK=$(echo $PRIMARY_IP | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s", $1, $2, $3) }')
+#sed -e "s/^.*${HOSTNAME}.*/${PRIMARY_IP} ${HOSTNAME} ${HOSTNAME}.local/" -i /etc/hosts
+
+# Export PRIMARY IP as an environment variable
+echo "PRIMARY_IP=${PRIMARY_IP}" >> /etc/environment
 
 # remove ubuntu-jammy entry
 sed -e '/^.*ubuntu-jammy.*/d' -i /etc/hosts

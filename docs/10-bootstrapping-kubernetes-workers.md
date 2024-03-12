@@ -214,6 +214,7 @@ Requires=containerd.service
 ExecStart=/usr/local/bin/kubelet \\
   --config=/var/lib/kubelet/kubelet-config.yaml \\
   --kubeconfig=/var/lib/kubelet/kubelet.kubeconfig \\
+  --node-ip=${PRIMARY_IP} \\
   --v=2
 Restart=on-failure
 RestartSec=5
@@ -241,7 +242,7 @@ kind: KubeProxyConfiguration
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 clientConnection:
   kubeconfig: /var/lib/kube-proxy/kube-proxy.kubeconfig
-mode: ipvs
+mode: iptables
 clusterCIDR: ${POD_CIDR}
 EOF
 ```

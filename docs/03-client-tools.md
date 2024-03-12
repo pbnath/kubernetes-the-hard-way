@@ -24,7 +24,9 @@ Add this key to the local `authorized_keys` (`controlplane01`) as in some comman
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
 
-Copy the key to the other hosts. For this step please enter `vagrant` where a password is requested.
+Copy the key to the other hosts. You will be asked to enter a password for each of the `ssh-copy-id` commands. The password is:
+* VirtualBox - `vagrant`
+* Apple Silicon: `ubuntu`
 
 The option `-o StrictHostKeyChecking=no` tells it not to ask if you want to connect to a previously unknown host. Not best practice in the real world, but speeds things up here.
 
@@ -43,6 +45,23 @@ Number of key(s) added: 1
 Now try logging into the machine, with:   "ssh 'vagrant@controlplane02'"
 and check to make sure that only the key(s) you wanted were added.
 ```
+
+Verify connection
+
+```
+ssh controlplane01
+exit
+
+ssh controlplane02
+exit
+
+ssh node01
+exit
+
+ssh node02
+exit
+```
+
 
 ## Install kubectl
 

@@ -47,7 +47,7 @@ If you do decide to change any of these, please treat as personal preference and
 
 *The use of iterm2 is optional and not required to complete this tutorial*.
 
-![titerm2 screenshot](../../../images/iterm2-broadcast.png)
+![titerm2 screenshot](../../images//iterm2-broadcast.png)
 
 To set up as per the image above, do the following in iterm2
 1. Right click and select split pane horizontally

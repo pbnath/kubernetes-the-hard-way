@@ -45,9 +45,6 @@ For each host, the output should be similar to this. If it is not, then you may 
 
 ```
 Number of key(s) added: 1
-
-Now try logging into the machine, with:   "ssh 'vagrant@controlplane02'"
-and check to make sure that only the key(s) you wanted were added.
 ```
 
 Verify connection

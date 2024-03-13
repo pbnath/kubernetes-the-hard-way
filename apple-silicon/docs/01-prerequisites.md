@@ -5,7 +5,10 @@
 This lab provisions 5 VMs on your workstation. That's a lot of compute resource!
 
 * Apple Silicon System (M1/M2/M3 etc)
-* 16GB RAM
+* Minimum 16GB RAM.<br/>Bear in mind that the unified memory architecture of Apple Silicon Macs means that the whole of the quoted memory is not available for software - some of it is used for the display, more if you have external displays.<br/>This rules out 8GB models - sorry.
+* Pro or Max CPU recommended for running the e2e-tests at the end of this lab.
+
+## Required Software
 
 You'll need to install the following first.
 
@@ -15,7 +18,8 @@ You'll need to install the following first.
 Additionally
 
 * Your account on your Mac must have admin privilege and be able to use `sudo`
-* Clone this repo down to your Mac. Open your Mac's terminal application. All commands in this guide are executed from the terminal.
+
+Clone this repo down to your Mac. Open your Mac's terminal application. All commands in this guide are executed from the terminal.
 
     ```bash
     mkdir ~/kodekloud
@@ -28,7 +32,7 @@ Additionally
 
 Due to how the virtualization works, the networking for each VM requires two network adapters; one used by Multipass and one used by everything else. Kubernetes components may by default bind to the Multipass adapter, which is *not* what we want, therefore we have pre-set an environment variable `PRIMARY_IP` on all VMs which is the IP address that Kubernetes components should be using. In the coming labs you will see this environment variable being used to ensure Kubernetes components bind to the correct network interface.
 
-`PRIMARY_IP` is defined as the IP address of the network interface on the node that is connected to the network having the default gateway, and is the interface that a node will use to talk to the other nodes. 
+`PRIMARY_IP` is defined as the IP address of the network interface on the node that is connected to the network having the default gateway, and is the interface that a node will use to talk to the other nodes.
 
 ### NAT Networking
 

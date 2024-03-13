@@ -30,13 +30,13 @@ Copy the key to the other hosts. You will be asked to enter a password for each 
 
 The option `-o StrictHostKeyChecking=no` tells it not to ask if you want to connect to a previously unknown host. Not best practice in the real world, but speeds things up here.
 
-`$(id -u)` selects the appropriate user name to connect to the remote VMs. On VirtualBox this evaluates to `vagrant`; on Apple Silicon it is `ubuntu`.
+`$(whoami)` selects the appropriate user name to connect to the remote VMs. On VirtualBox this evaluates to `vagrant`; on Apple Silicon it is `ubuntu`.
 
 ```bash
-ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@controlplane02
-ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@loadbalancer
-ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@node01
-ssh-copy-id -o StrictHostKeyChecking=no $(id -u)@node02
+ssh-copy-id -o StrictHostKeyChecking=no $(whoami)@controlplane02
+ssh-copy-id -o StrictHostKeyChecking=no $(whoami)@loadbalancer
+ssh-copy-id -o StrictHostKeyChecking=no $(whoami)@node01
+ssh-copy-id -o StrictHostKeyChecking=no $(whoami)@node02
 ```
 
 
@@ -72,10 +72,12 @@ Reference: [https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kub
 
 We will be using `kubectl` early on to generate `kubeconfig` files for the controlplane components.
 
+The environment variable `ARCH` is pre-set during VM deployment according to whether using VirtualBox (amd64) or Apple Silicon (arm64) to ensure the correct version of this and later software is downloaded for your machine architecture.
+
 ### Linux
 
 ```bash
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl"
 chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 ```
@@ -88,7 +90,7 @@ Verify `kubectl` is installed:
 kubectl version -o yaml
 ```
 
-output will be similar to this, although versions may be newer:
+output will be similar to this, although versions may be newer and platform will depend on whther you're using VirtualBox or Apple Silicon:
 
 ```
 kubectl version -o yaml

@@ -9,9 +9,9 @@ Depending on your computer, you may have varying success with these. I have foun
 
 ```bash
 GO_VERSION=$(curl -s 'https://go.dev/VERSION?m=text' | head -1)
-wget "https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz"
+wget "https://dl.google.com/go/${GO_VERSION}.linux-${ARCH}.tar.gz"
 
-sudo tar -C /usr/local -xzf ${GO_VERSION}.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf ${GO_VERSION}.linux-${ARCH}.tar.gz
 
 sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
 sudo ln -s /usr/local/go/bin/gofmt /usr/local/bin/gofmt

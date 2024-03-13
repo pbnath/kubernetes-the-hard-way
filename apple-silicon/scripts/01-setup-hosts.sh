@@ -1,20 +1,18 @@
 #!/usr/bin/env bash
-BUILD_MODE=$1
-NETWORK=$2
 
 # Set hostfile entries
 cat /tmp/hostentries | sudo tee -a /etc/hosts
 
 # Export internal IP of primary NIC as an environment variable
-if [ "$BUILD_MODE" = "BRIDGE" ]
-then
-    echo "PRIMARY_IP=$(ip route | grep "^default.*${NETWORK}" | awk '{ print $9 }')" | sudo tee -a /etc/environment > /dev/null
-else
-    echo "PRIMARY_IP=$(ip route | grep default | awk '{ print $9 }')" | sudo tee -a /etc/environment > /dev/null
-fi
+echo "PRIMARY_IP=$(ip route | grep default | awk '{ print $9 }')" | sudo tee -a /etc/environment > /dev/null
+
+# Export architecture as environment variable to download correct versions of software
+echo "ARCH=arm64"  | sudo tee -a /etc/environment > /dev/null
 
 # Enable password auth in sshd so we can use ssh-copy-id
-sudo sed -i 's/#PasswordAuthentication/PasswordAuthentication/' /etc/ssh/sshd_config
+# Enable password auth in sshd so we can use ssh-copy-id
+sudo sed -i --regexp-extended 's/#?PasswordAuthentication (yes|no)/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i --regexp-extended 's/#?Include \/etc\/ssh\/sshd_config.d\/\*.conf/#Include \/etc\/ssh\/sshd_config.d\/\*.conf/' /etc/ssh/sshd_config
 sudo sed -i 's/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 

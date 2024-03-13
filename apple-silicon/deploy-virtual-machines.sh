@@ -85,37 +85,37 @@ do
 done
 echo -e "${GREEN}Done!${NC}"
 
-if [ "$ARG" = "-auto" ]
-then
-    # Set up hosts
-    echo -e "${BLUE}Setting up common componenets${NC}"
-    join_command=/tmp/join-command.sh
+# if [ "$ARG" = "-auto" ]
+# then
+#     # Set up hosts
+#     echo -e "${BLUE}Setting up common componenets${NC}"
+#     join_command=/tmp/join-command.sh
 
-    for node in kubemaster $workers
-    do
-        echo -e "${BLUE}- ${node}${NC}"
-        multipass transfer $hostentries $node:/tmp/
-        multipass transfer $SCRIPT_DIR/*.sh $node:/tmp/
-        for script in 02-setup-kernel.sh 03-setup-cri.sh 04-kube-components.sh
-        do
-            multipass exec $node -- /tmp/$script
-        done
-    done
+#     for node in kubemaster $workers
+#     do
+#         echo -e "${BLUE}- ${node}${NC}"
+#         multipass transfer $hostentries $node:/tmp/
+#         multipass transfer $SCRIPT_DIR/*.sh $node:/tmp/
+#         for script in 02-setup-kernel.sh 03-setup-cri.sh 04-kube-components.sh
+#         do
+#             multipass exec $node -- /tmp/$script
+#         done
+#     done
 
-    echo -e "${GREEN}Done!${NC}"
+#     echo -e "${GREEN}Done!${NC}"
 
-    # Configure control plane
-    echo -e "${BLUE}Setting up control plane${NC}"
-    multipass exec kubemaster /tmp/05-deploy-controlplane.sh
-    multipass transfer kubemaster:/tmp/join-command.sh $join_command
-    echo -e "${GREEN}Done!${NC}"
+#     # Configure control plane
+#     echo -e "${BLUE}Setting up control plane${NC}"
+#     multipass exec kubemaster /tmp/05-deploy-controlplane.sh
+#     multipass transfer kubemaster:/tmp/join-command.sh $join_command
+#     echo -e "${GREEN}Done!${NC}"
 
-    # Configure workers
-    for n in $workers
-    do
-        echo -e "${BLUE}Setting up ${n}${NC}"
-        multipass transfer $join_command $n:/tmp
-        multipass exec $n -- sudo $join_command
-        echo -e "${GREEN}Done!${NC}"
-    done
-fi
+#     # Configure workers
+#     for n in $workers
+#     do
+#         echo -e "${BLUE}Setting up ${n}${NC}"
+#         multipass transfer $join_command $n:/tmp
+#         multipass exec $n -- sudo $join_command
+#         echo -e "${GREEN}Done!${NC}"
+#     done
+# fi

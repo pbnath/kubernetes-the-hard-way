@@ -111,8 +111,8 @@ All the following commands from here until the [verification](#verification) ste
 KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
 
 wget -q --show-progress --https-only --timestamping \
-  https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/amd64/kube-proxy \
-  https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/amd64/kubelet 
+  https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kube-proxy \
+  https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kubelet 
 ```
 
 Reference: https://kubernetes.io/releases/download/#binaries

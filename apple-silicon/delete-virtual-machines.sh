@@ -2,15 +2,18 @@
 
 set -eo pipefail
 
-NUM_WORKER_NODES=2
-MEM_GB=$(( $(sysctl hw.memsize | cut -d ' ' -f 2) /  1073741824 ))
+specs=/tmp/vm-specs
+cat <<EOF > $specs
+controlplane01,2,1536M,5G
+controlplane02,2,1536M,5G
+loadbalancer,1,512M,5G
+node01,2,2048M,5G
+node02,2,2048M,5G
+EOF
 
-[ $MEM_GB -lt 16 ] && NUM_WORKER_NODES=1
-
-workers=$(for n in $(seq 1 $NUM_WORKER_NODES) ; do echo -n "node0$n " ; done)
-
-for n in $workers controlplane
+for spec in $(cat $specs)
 do
+    n=$(cut -d ',' -f 1 <<< $spec)
     multipass stop $n
     multipass delete $n
 done
@@ -20,7 +23,7 @@ multipass purge
 echo
 echo "You should now remove all the following lines from /var/db/dhcpd_leases"
 echo
-cat /var/db/dhcpd_leases | egrep -A 5 -B 1 '(controlplane|node01|node02)'
+cat /var/db/dhcpd_leases | egrep -A 5 -B 1 '(controlplane|node|loadbalancer)'
 echo
 cat <<EOF
 Use the following command to do this

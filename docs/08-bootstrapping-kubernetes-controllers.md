@@ -22,10 +22,10 @@ Download the latest official Kubernetes release binaries:
 KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
 
 wget -q --show-progress --https-only --timestamping \
-  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/amd64/kube-apiserver" \
-  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/amd64/kube-controller-manager" \
-  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/amd64/kube-scheduler" \
-  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/amd64/kubectl"
+  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kube-apiserver" \
+  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kube-controller-manager" \
+  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kube-scheduler" \
+  "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kubectl"
 ```
 
 Reference: https://kubernetes.io/releases/download/#binaries
@@ -327,7 +327,7 @@ curl -k https://${LOADBALANCER}:6443/version
   "buildDate": "2022-07-13T14:23:26Z",
   "goVersion": "go1.18.3",
   "compiler": "gc",
-  "platform": "linux/amd64"
+  "platform": "linux/${ARCH}"
 }
 ```
 

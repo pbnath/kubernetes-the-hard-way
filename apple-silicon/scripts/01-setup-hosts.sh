@@ -17,5 +17,11 @@ sudo sed -i --regexp-extended 's/#?Include \/etc\/ssh\/sshd_config.d\/\*.conf/#I
 sudo sed -i 's/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 
+if [ "$(hostname)" = "controlplane01" ]
+then
+    sudo apt update
+    sudo apt-get install -y sshpass
+fi
+
 # Set password for ubuntu user (it's something random by default)
 echo 'ubuntu:ubuntu' | sudo chpasswd

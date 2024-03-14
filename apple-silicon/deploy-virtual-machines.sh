@@ -84,6 +84,17 @@ do
     multipass transfer $SCRIPT_DIR/cert_verify.sh $node:/home/ubuntu/
     multipass exec $node -- /tmp/01-setup-hosts.sh
 done
+
+cat <<'EOF' > auto-ssh.sh
+echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@controlplane02
+echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@loadbalancer
+echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@node01
+echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@node02
+EOF
+
+multipass transfer auto-ssh.sh controlplane01:/home/ubuntu/
+rm -f auto-ssh.sh
+
 echo -e "${GREEN}Done!${NC}"
 
 # if [ "$ARG" = "-auto" ]

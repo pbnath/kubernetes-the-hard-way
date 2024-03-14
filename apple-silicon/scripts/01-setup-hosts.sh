@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Set hostfile entries
+sudo sed -i "/$(hostname)/d" /etc/hosts
 cat /tmp/hostentries | sudo tee -a /etc/hosts
 
 # Export internal IP of primary NIC as an environment variable

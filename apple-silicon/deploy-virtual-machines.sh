@@ -23,8 +23,8 @@ fi
 
 specs=/tmp/vm-specs
 cat <<EOF > $specs
-controlplane01,2,1536M,5G
-controlplane02,2,1536M,5G
+controlplane01,2,2048M,10G
+controlplane02,2,2048M,5G
 loadbalancer,1,512M,5G
 node01,2,2048M,5G
 node02,2,2048M,5G
@@ -81,6 +81,7 @@ do
     node=$(cut -d ',' -f 1 <<< $spec)
     multipass transfer $hostentries $node:/tmp/
     multipass transfer $SCRIPT_DIR/01-setup-hosts.sh $node:/tmp/
+    multipass transfer $SCRIPT_DIR/cert_verify.sh $node:/home/ubuntu/
     multipass exec $node -- /tmp/01-setup-hosts.sh
 done
 echo -e "${GREEN}Done!${NC}"

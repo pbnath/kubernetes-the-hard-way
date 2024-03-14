@@ -42,16 +42,10 @@ NUM_CPU=$(cat /proc/cpuinfo | grep '^processor' | wc -l)
 
 cd ~
 kubetest2 noop --kubeconfig ${PWD}/.kube/config --test=ginkgo -- \
-  --focus-regex='\[Conformance\]' --test-package-version $KUBE_VERSION --logtostderr --parallel $NUM_CPU
+  --focus-regex='\[Conformance\]' --test-package-version $KUBE_VERSION --parallel $NUM_CPU
 ```
 
-While this is running, you can open an additional session on `controlplane01` from your workstation and watch the activity in the cluster
-
-```
-vagrant ssh controlplane01
-```
-
-then
+While this is running, you can open an additional session on `controlplane01` from your workstation and watch the activity in the cluster -
 
 ```
 watch kubectl get all -A

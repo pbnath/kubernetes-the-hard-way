@@ -41,7 +41,7 @@ echo $SERVICE_CIDR
 echo $API_SERVICE
 ```
 
-The output should look like this. If you changed any of the defaults mentioned in the [prerequisites](./01-prerequisites.md) page, then addresses may differ.
+The output should look like this with one IP address per line. If you changed any of the defaults mentioned in the [prerequisites](./01-prerequisites.md) page, then addresses may differ. The first 3 addresses will also be different for Apple Silicon (likely 192.168.64.x).
 
 ```
 192.168.56.11

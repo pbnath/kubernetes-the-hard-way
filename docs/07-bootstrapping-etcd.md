@@ -55,7 +55,6 @@ The instance internal IP address will be used to serve client requests and commu
 Retrieve the internal IP address of the controlplane(etcd) nodes, and also that of controlplane01 and controlplane02 for the etcd cluster member list
 
 ```bash
-PRIMARY_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
 CONTROL01=$(dig +short controlplane01)
 CONTROL02=$(dig +short controlplane02)
 ```

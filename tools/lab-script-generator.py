@@ -63,7 +63,7 @@ output_file_no = 1
 script = []
 indent = 0
 output_file = None
-for doc in glob.glob(os.path.join(docs_path, '*.md')):
+for doc in sorted(glob.glob(os.path.join(docs_path, '*.md'))):
     print(doc)
     state = State.NONE
     ignore_next_script = False

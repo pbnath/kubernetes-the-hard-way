@@ -24,17 +24,14 @@ class State(Enum):
     NONE = 0
     SCRIPT = 1
 
-parser = argparse.ArgumentParser(description="Extract scripts from markdown")
-parser.add_argument("--path", '-p', required=True, help='Path to markdown docs')
-args = parser.parse_args()
-
-docs_path = os.path.abspath(args.path)
+this_file_dir = os.path.dirname(os.path.abspath(__file__))
+docs_path = os.path.abspath(os.path.join(this_file_dir, '../docs'))
 
 if not os.path.isdir(docs_path):
-    print (f'Invalid path: {docs_path}')
+    print (f'Expected "docs" at: {docs_path}')
     exit(1)
 
-qs_path = os.path.abspath(os.path.join(docs_path, '../quick-steps'))
+qs_path = os.path.abspath(os.path.join(this_file_dir, '../quick-steps'))
 
 if not os.path.isdir(qs_path):
     os.makedirs(qs_path)

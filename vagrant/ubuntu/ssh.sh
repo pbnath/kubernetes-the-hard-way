@@ -12,3 +12,11 @@ then
     chmod 700 /home/vagrant/.ssh
     chown vagrant:vagrant /home/vagrant/.ssh
 fi
+
+
+if [ "$(hostname)" = "controlplane01" ]
+then
+    sh -c 'sudo apt update' &> /dev/null
+    sh -c 'sudo apt-get install -y sshpass' &> /dev/null
+fi
+

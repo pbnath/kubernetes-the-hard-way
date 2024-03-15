@@ -1,8 +1,8 @@
 # Installing the Client Tools
 
-First identify a system from where you will perform administrative tasks, such as creating certificates, `kubeconfig` files and distributing them to the different VMs.
+From this point on, the steps are *exactly* the same for VirtualBox and Apple Silicon as it is now about configuring Kubernetes itself on the Linux hosts which you have now provisioned.
 
-If you are on a Linux laptop, then your laptop could be this system. In my case I chose the `controlplane01` node to perform administrative tasks. Whichever system you chose make sure that system is able to access all the provisioned VMs through SSH to copy files over.
+Begin by logging into `controlplane01` using `vagrant ssh` for VirtualBox, or `multipass shell` for Apple Silicon.
 
 ## Access all VMs
 

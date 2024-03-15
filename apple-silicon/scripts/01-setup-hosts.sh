@@ -2,7 +2,7 @@
 
 # Set hostfile entries
 sudo sed -i "/$(hostname)/d" /etc/hosts
-cat /tmp/hostentries | sudo tee -a /etc/hosts
+cat /tmp/hostentries | sudo tee -a /etc/hosts &> /dev/null
 
 # Export internal IP of primary NIC as an environment variable
 echo "PRIMARY_IP=$(ip route | grep default | awk '{ print $9 }')" | sudo tee -a /etc/environment > /dev/null
@@ -19,9 +19,9 @@ sudo systemctl restart sshd
 
 if [ "$(hostname)" = "controlplane01" ]
 then
-    sudo apt update
-    sudo apt-get install -y sshpass
-fi
+    sh -c 'sudo apt update' &> /dev/null
+    sh -c 'sudo apt-get install -y sshpass' &> /dev/null
+ fi
 
 # Set password for ubuntu user (it's something random by default)
 echo 'ubuntu:ubuntu' | sudo chpasswd

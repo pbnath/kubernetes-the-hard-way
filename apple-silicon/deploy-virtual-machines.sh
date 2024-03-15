@@ -12,12 +12,26 @@ GREEN="\033[1;32m"
 BLUE="\033[1;34m"
 NC="\033[0m"
 
+echo -e "${BLUE}Checking system compatibility${NC}"
+
 MEM_GB=$(( $(sysctl hw.memsize | cut -d ' ' -f 2) /  1073741824 ))
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/scripts
 
 if [ $MEM_GB -lt 12 ]
 then
     echo -e "${RED}System RAM is ${MEM_GB}GB. This is insufficient to deploy a working cluster.${NC}"
+    exit 1
+fi
+
+if ! command -v multipass > /dev/null
+then
+    echo -e "${RED}Cannot find multipass. Did you install it as per the instructions?${NC}"
+    exit 1
+fi
+
+if ! command -v jq > /dev/null
+then
+    echo -e "${RED}Cannot find jq. Did you install it as per the instructions?${NC}"
     exit 1
 fi
 
@@ -29,6 +43,8 @@ loadbalancer,1,512M,5G
 node01,2,2048M,5G
 node02,2,2048M,5G
 EOF
+
+echo -e "${GREEN}System OK!${NC}"
 
 # If the nodes are running, reset them
 for spec in $(cat $specs)
@@ -64,7 +80,7 @@ do
 done
 
 # Create hostfile entries
-echo -e "${BLUE}Setting hostnames${NC}"
+echo -e "${BLUE}Provisioning...${NC}"
 hostentries=/tmp/hostentries
 
 [ -f $hostentries ] && rm -f $hostentries
@@ -85,49 +101,4 @@ do
     multipass exec $node -- /tmp/01-setup-hosts.sh
 done
 
-cat <<'EOF' > auto-ssh.sh
-echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@controlplane02
-echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@loadbalancer
-echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@node01
-echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@node02
-EOF
-
-multipass transfer auto-ssh.sh controlplane01:/home/ubuntu/
-rm -f auto-ssh.sh
-
 echo -e "${GREEN}Done!${NC}"
-
-# if [ "$ARG" = "-auto" ]
-# then
-#     # Set up hosts
-#     echo -e "${BLUE}Setting up common componenets${NC}"
-#     join_command=/tmp/join-command.sh
-
-#     for node in kubemaster $workers
-#     do
-#         echo -e "${BLUE}- ${node}${NC}"
-#         multipass transfer $hostentries $node:/tmp/
-#         multipass transfer $SCRIPT_DIR/*.sh $node:/tmp/
-#         for script in 02-setup-kernel.sh 03-setup-cri.sh 04-kube-components.sh
-#         do
-#             multipass exec $node -- /tmp/$script
-#         done
-#     done
-
-#     echo -e "${GREEN}Done!${NC}"
-
-#     # Configure control plane
-#     echo -e "${BLUE}Setting up control plane${NC}"
-#     multipass exec kubemaster /tmp/05-deploy-controlplane.sh
-#     multipass transfer kubemaster:/tmp/join-command.sh $join_command
-#     echo -e "${GREEN}Done!${NC}"
-
-#     # Configure workers
-#     for n in $workers
-#     do
-#         echo -e "${BLUE}Setting up ${n}${NC}"
-#         multipass transfer $join_command $n:/tmp
-#         multipass exec $n -- sudo $join_command
-#         echo -e "${GREEN}Done!${NC}"
-#     done
-# fi

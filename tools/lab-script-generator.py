@@ -40,6 +40,7 @@ newline = chr(10)       # In case running on Windows (plus writing files as bina
 file_number_rx = re.compile(r'^(?P<number>\d+)')
 comment_rx = re.compile(r'^\[//\]:\s\#\s\((?P<token>\w+):(?P<value>.*)\)\s*$')
 choice_rx = re.compile(r'^\s*-+\s+OR\s+-+')
+ssh_copy_id_rx = re.compile(r'(?P<indent>\s*)ssh-copy-id.*@(?P<host>\w+)')
 script_begin_rx = re.compile(r'^(?P<indent>\s*)```bash')
 script_begin = '```bash'
 script_end = '```'
@@ -61,6 +62,9 @@ script = []
 indent = 0
 output_file = None
 for doc in sorted(glob.glob(os.path.join(docs_path, '*.md'))):
+    if 'e2e-tests' in doc:
+        # Skip this for scripted install
+        continue
     print(doc)
     state = State.NONE
     ignore_next_script = False
@@ -143,7 +147,11 @@ for doc in sorted(glob.glob(os.path.join(docs_path, '*.md'))):
                 #     script.append(line)
                 #     script.append('{')
                 elif not (ignore_next_script or line == (' ' * indent) + '{' or line == (' ' * indent) + '}'):
-                    script.append(line[indent:])
+                    m = ssh_copy_id_rx.match(line)
+                    if m:
+                        script.append(f'{m["indent"]}echo $(whoami) | sshpass ssh-copy-id -f -o StrictHostKeyChecking=no $(whoami)@{m["host"]}')
+                    else:
+                        script.append(line[indent:])
 if script:
     # fns = '-'.join(file_nos[1:])
     output_file = os.path.join(qs_path, f'{output_file_no}-{current_host}.sh')

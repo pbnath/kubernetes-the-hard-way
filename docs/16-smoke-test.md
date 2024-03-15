@@ -61,7 +61,7 @@ In this section you will verify the ability to create and manage [Deployments](h
 Create a deployment for the [nginx](https://nginx.org/en/) web server:
 
 ```bash
-kubectl create deployment nginx --image=nginx:1.23.1
+kubectl create deployment nginx --image=nginx:alpine
 ```
 
 [//]: # (command:kubectl wait deployment -n default nginx --for condition=Available=True --timeout=90s)
@@ -89,6 +89,7 @@ Create a service to expose deployment nginx on node ports.
 kubectl expose deploy nginx --type=NodePort --port 80
 ```
 
+[//]: # (command:sleep 2)
 
 ```bash
 PORT_NUMBER=$(kubectl get svc -l app=nginx -o jsonpath="{.items[0].spec.ports[0].nodePort}")

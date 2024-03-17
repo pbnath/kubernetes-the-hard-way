@@ -8,7 +8,7 @@ In this lab you will generate an encryption key and an [encryption config](https
 
 [//]: # (host:controlplane01)
 
-Generate an encryption key:
+Generate an encryption key. This is simply 32 bytes of random data, which we base64 encode:
 
 ```bash
 ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)

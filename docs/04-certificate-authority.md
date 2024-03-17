@@ -14,7 +14,7 @@ In our case we do the following steps on the `controlplane01` node, as we have s
 
 In this section you will provision a Certificate Authority that can be used to generate additional TLS certificates.
 
-Query IPs of hosts we will insert as certificate subject alternative names (SANs), which will be read from `/etc/hosts`. Note that doing this allows us to change the VM network range more easily from the default for these labs which is `192.168.56.0/24`
+Query IPs of hosts we will insert as certificate subject alternative names (SANs), which will be read from `/etc/hosts`.
 
 Set up environment variables. Run the following:
 
@@ -41,7 +41,7 @@ echo $SERVICE_CIDR
 echo $API_SERVICE
 ```
 
-The output should look like this with one IP address per line. If you changed any of the defaults mentioned in the [prerequisites](./01-prerequisites.md) page, then addresses may differ. The first 3 addresses will also be different for Apple Silicon (likely 192.168.64.x).
+The output should look like this with one IP address per line. If you changed any of the defaults mentioned in the [prerequisites](./01-prerequisites.md) page, then addresses may differ. The first 3 addresses will also be different for Apple Silicon on Multipass (likely 192.168.64.x).
 
 ```
 192.168.56.11
@@ -83,6 +83,8 @@ The `ca.key` is used by the CA for signing certificates. And it should be secure
 ## Client and Server Certificates
 
 In this section you will generate client and server certificates for each Kubernetes component and a client certificate for the Kubernetes `admin` user.
+
+To better understand the role of client certificates with respect to users and groups, see [this informative video](https://youtu.be/I-iVrIWfMl8). Note that all the kubenetes services below are themselves cluster users.
 
 ### The Admin Client Certificate
 
@@ -241,7 +243,7 @@ kube-apiserver.crt
 kube-apiserver.key
 ```
 
-# The Kubelet Client Certificate
+### The API Server Kubelet Client Certificate
 
 This certificate is for the API server to authenticate with the kubelets when it requests information from them
 

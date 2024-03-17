@@ -56,7 +56,7 @@ node01.crt
 
 When generating kubeconfig files for Kubelets the client certificate matching the Kubelet's node name must be used. This will ensure Kubelets are properly authorized by the Kubernetes [Node Authorizer](https://kubernetes.io/docs/admin/authorization/node/).
 
-Get the kub-api server load-balancer IP.
+Get the kube-api server load-balancer IP.
 
 ```bash
 LOADBALANCER=$(dig +short loadbalancer)
@@ -138,7 +138,7 @@ Install the worker binaries:
 
 ### Configure the Kubelet
 
-On node01:
+On `node01`:
 
 Copy keys and config to correct directories and secure
 
@@ -226,7 +226,7 @@ EOF
 
 ### Configure the Kubernetes Proxy
 
-On node01:
+On `node01`:
 
 ```bash
 sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/
@@ -279,7 +279,8 @@ At `node01` node, run the following, selecting option 4
 
 ### Start the Worker Services
 
-On node01:
+On `node01`:
+
 ```bash
 {
   sudo systemctl daemon-reload
@@ -302,7 +303,7 @@ List the registered Kubernetes nodes from the controlplane node:
 kubectl get nodes --kubeconfig admin.kubeconfig
 ```
 
-> output
+Output will be similar to
 
 ```
 NAME       STATUS     ROLES    AGE   VERSION

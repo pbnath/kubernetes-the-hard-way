@@ -41,7 +41,7 @@ We will be building the following:
 
 * Two control plane nodes (`controlplane01` and `controlplane02`) running the control plane components as operating system services. This is not a kubeadm cluster as you are used to if you have been doing the CKA course. The control planes are *not* themselves nodes, therefore will not show with `kubectl get nodes`.
 * Two worker nodes (`node01` and `node02`)
-* One loadbalancer VM running [HAProxy](https://www.haproxy.org/) to balance requests between the two API servers.
+* One loadbalancer VM running [HAProxy](https://www.haproxy.org/) to balance requests between the two API servers and provide the endpoint for your KUBECONFIG.
 
 ## Getting Started
 

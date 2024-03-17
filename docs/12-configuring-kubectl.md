@@ -50,7 +50,7 @@ Check the health of the remote Kubernetes cluster:
 kubectl get componentstatuses
 ```
 
-> output
+Output will be similar to this. It may or may not list both etcd instances, however this is OK if you verified correct installation of etcd in lab 7.
 
 ```
 Warning: v1 ComponentStatus is deprecated in v1.19+

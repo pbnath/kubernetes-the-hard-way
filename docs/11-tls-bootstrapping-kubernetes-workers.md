@@ -6,7 +6,7 @@ In the previous step we configured a worker node by
 - Creating a kube-config file using this certificate by ourself
 - Everytime the certificate expires we must follow the same process of updating the certificate by ourself
 
-This is not a practical approach when you have 1000s of nodes in the cluster, and nodes dynamically being added and removed from the cluster.  With TLS boostrapping:
+This is not a practical approach when you could have 1000s of nodes in the cluster, and nodes dynamically being added and removed from the cluster.  With TLS boostrapping:
 
 - The Nodes can generate certificate key pairs by themselves
 - The Nodes can generate certificate signing request by themselves
@@ -41,7 +41,7 @@ So let's get started!
 
 > Note: We have already configured these in lab 8 in this course
 
-# Step 1 Create the Boostrap Token to be used by Nodes(Kubelets) to invoke Certificate API
+# Step 1 Create the Boostrap Token to be used by Nodes (Kubelets) to invoke Certificate API
 
 [//]: # (host:controlplane01)
 
@@ -100,7 +100,7 @@ Once this is created the token to be used for authentication is `07401b.f395accd
 
 Reference: https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/#bootstrap-token-secret-format
 
-## Step 2 Authorize workers(kubelets) to create CSR
+## Step 2 Authorize nodes (kubelets) to create CSR
 
 Next we associate the group we created before to the system:node-bootstrapper ClusterRole. This ClusterRole gives the group enough permissions to bootstrap the kubelet
 
@@ -135,7 +135,7 @@ kubectl create -f csrs-for-bootstrapping.yaml --kubeconfig admin.kubeconfig
 ```
 Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#authorize-kubelet-to-create-csr
 
-## Step 3 Authorize workers(kubelets) to approve CSRs
+## Step 3 Authorize nodes (kubelets) to approve CSRs
 
 ```bash
 kubectl create clusterrolebinding auto-approve-csrs-for-group \
@@ -168,7 +168,7 @@ kubectl create -f auto-approve-csrs-for-group.yaml --kubeconfig admin.kubeconfig
 
 Reference: https://kubernetes.io/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/#approval
 
-## Step 4 Authorize workers(kubelets) to Auto Renew Certificates on expiration
+## Step 4 Authorize nodes (kubelets) to Auto Renew Certificates on expiration
 
 We now create the Cluster Role Binding required for the nodes to automatically renew the certificates on expiry. Note that we are NOT using the **system:bootstrappers** group here any more. Since by the renewal period, we believe the node would be bootstrapped and part of the cluster already. All nodes are part of the **system:nodes** group.
 
@@ -432,7 +432,7 @@ EOF
 
 ## Step 10 Start the Worker Services
 
-On node02:
+On `node02`:
 
 ```bash
 {
@@ -494,13 +494,15 @@ List the registered Kubernetes nodes from the controlplane node:
 kubectl get nodes --kubeconfig admin.kubeconfig
 ```
 
-> output
+Output will be similar to
 
 ```
 NAME       STATUS      ROLES    AGE   VERSION
 node01     NotReady    <none>   93s   v1.28.4
 node02     NotReady    <none>   93s   v1.28.4
 ```
+
+Nodes are still not yet ready. As previously mentioned, this is expected.
 
 Next: [Configuring Kubectl](./12-configuring-kubectl.md)</br>
 Prev: [Bootstrapping the Kubernetes Worker Nodes](./10-bootstrapping-kubernetes-workers.md)

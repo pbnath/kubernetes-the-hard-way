@@ -315,21 +315,7 @@ Make a HTTP request for the Kubernetes version info:
 curl -k https://${LOADBALANCER}:6443/version
 ```
 
-> output
-
-```
-{
-  "major": "1",
-  "minor": "24",
-  "gitVersion": "${KUBE_VERSION}",
-  "gitCommit": "aef86a93758dc3cb2c658dd9657ab4ad4afc21cb",
-  "gitTreeState": "clean",
-  "buildDate": "2022-07-13T14:23:26Z",
-  "goVersion": "go1.18.3",
-  "compiler": "gc",
-  "platform": "linux/${ARCH}"
-}
-```
+This should output some details about the version and build information of the API server.
 
 Next: [Installing CRI on the Kubernetes Worker Nodes](./09-install-cri-workers.md)<br>
 Prev: [Bootstrapping the etcd Cluster](./07-bootstrapping-etcd.md)

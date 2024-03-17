@@ -91,5 +91,5 @@ You can perform this step with [tmux](01-prerequisites.md#running-commands-in-pa
         ```
 
 
-Next: [Bootstrapping the Kubernetes Worker Nodes](10-bootstrapping-kubernetes-workers.md)</br>
-Prev: [Bootstrapping the Kubernetes Control Plane](08-bootstrapping-kubernetes-controllers.md)
+Next: [Bootstrapping the Kubernetes Worker Nodes](./10-bootstrapping-kubernetes-workers.md)</br>
+Prev: [Bootstrapping the Kubernetes Control Plane](./08-bootstrapping-kubernetes-controllers.md)

@@ -6,7 +6,7 @@ Begin by logging into `controlplane01` using `vagrant ssh` for VirtualBox, or `m
 
 ## Access all VMs
 
-Here we create an SSH key pair for the `vagrant` user who we are logged in as. We will copy the public key of this pair to the other control and both workers to permit us to use password-less SSH (and SCP) go get from `controlplane01` to these other nodes in the context of the `vagrant` user which exists on all nodes.
+Here we create an SSH key pair for the user who we are logged in as (this is `vagrant` on VirtualBox, `ubuntu` on Apple Silicon). We will copy the public key of this pair to the other controlplane and both workers to permit us to use password-less SSH (and SCP) go get from `controlplane01` to these other nodes in the context of the user which exists on all nodes.
 
 Generate SSH key pair on `controlplane01` node:
 
@@ -72,7 +72,7 @@ Reference: [https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kub
 
 We will be using `kubectl` early on to generate `kubeconfig` files for the controlplane components.
 
-The environment variable `ARCH` is pre-set during VM deployment according to whether using VirtualBox (amd64) or Apple Silicon (arm64) to ensure the correct version of this and later software is downloaded for your machine architecture.
+The environment variable `ARCH` is pre-set during VM deployment according to whether using VirtualBox (`amd64`) or Apple Silicon (`arm64`) to ensure the correct version of this and later software is downloaded for your machine architecture.
 
 ### Linux
 
@@ -87,29 +87,15 @@ sudo mv kubectl /usr/local/bin/
 Verify `kubectl` is installed:
 
 ```
-kubectl version -o yaml
+kubectl version --client
 ```
 
-output will be similar to this, although versions may be newer and platform will depend on whther you're using VirtualBox or Apple Silicon:
+output will be similar to this, although versions may be newer:
 
 ```
-kubectl version -o yaml
-clientVersion:
-  buildDate: "2023-11-15T16:58:22Z"
-  compiler: gc
-  gitCommit: bae2c62678db2b5053817bc97181fcc2e8388103
-  gitTreeState: clean
-  gitVersion: v1.28.4
-  goVersion: go1.20.11
-  major: "1"
-  minor: "28"
-  platform: linux/amd64
-kustomizeVersion: v5.0.4-0.20230601165947-6ce0bf390ce3
-
-The connection to the server localhost:8080 was refused - did you specify the right host or port?
+Client Version: v1.29.0
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 ```
-
-Don't worry about the error at the end as it is expected. We have not set anything up yet!
 
 Next: [Certificate Authority](04-certificate-authority.md)<br>
 Prev: Compute Resources ([VirtualBox](../VirtualBox/docs/02-compute-resources.md)), ([Apple Silicon](../apple-silicon/docs/02-compute-resources.md))

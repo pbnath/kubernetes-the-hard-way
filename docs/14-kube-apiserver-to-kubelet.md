@@ -58,5 +58,5 @@ EOF
 ```
 Reference: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding
 
-Next: [DNS Addon](15-dns-addon.md)</br>
-Prev: [Deploy Pod Networking](13-configure-pod-networking.md)
+Next: [DNS Addon](./15-dns-addon.md)</br>
+Prev: [Deploy Pod Networking](./13-configure-pod-networking.md)

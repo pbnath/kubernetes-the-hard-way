@@ -502,5 +502,5 @@ node01     NotReady    <none>   93s   v1.28.4
 node02     NotReady    <none>   93s   v1.28.4
 ```
 
-Next: [Configuring Kubectl](12-configuring-kubectl.md)</br>
-Prev: [Bootstrapping the Kubernetes Worker Nodes](10-bootstrapping-kubernetes-workers.md)
+Next: [Configuring Kubectl](./12-configuring-kubectl.md)</br>
+Prev: [Bootstrapping the Kubernetes Worker Nodes](./10-bootstrapping-kubernetes-workers.md)

@@ -9,7 +9,7 @@ This should also work with Linux (as the host operating system, not running in a
 
 ### Hardware Requirements
 
-This lab provisions 5 VMs on your workstation. That's a lot of compute resource! 
+This lab provisions 5 VMs on your workstation. That's a lot of compute resource!
 
 - 16GB RAM. It may work with less, but will be slow and may crash unexpectedly.
 - 8 core or better CPU e.g. Intel Core-i7/Core-i9, AMD Ryzen-7/Ryzen-9. May work with fewer, but will be slow and may crash unexpectedly.
@@ -19,10 +19,9 @@ This lab provisions 5 VMs on your workstation. That's a lot of compute resource!
 
 Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) on any one of the supported platforms:
 
- - Windows hosts
- - OS X hosts (x86 only, not Apple Silicon M-series)
- - Linux distributions
- - Solaris hosts
+ - Windows
+ - Intel Mac
+ - Linux
 
 ### Vagrant
 
@@ -32,17 +31,17 @@ Vagrant provides an easier way to deploy multiple virtual machines on VirtualBox
 Download and install [Vagrant](https://www.vagrantup.com/) on your platform.
 
 - Windows
-- Debian
-- Centos
+- Debian/Ubuntu
+- CentOS
 - Linux
-- macOS (x86 only, not M1)
+- Intel Mac
 
 This tutorial assumes that you have also installed Vagrant.
 
 
 ### Lab Defaults
 
-The labs have been configured with the following networking defaults. If you change any of these after you have deployed any of the lab, you'll need to completely reset it and start again from the beginning:
+The labs have been configured with the following networking defaults. It is not recommended to change these. If you change any of these after you have deployed any of the lab, you'll need to completely reset it and start again from the beginning:
 
 ```bash
 vagrant destroy -f

@@ -51,7 +51,7 @@ The output should look like this with one IP address per line. If you changed an
 10.96.0.1
 ```
 
-Create a CA certificate, then generate a Certificate Signing Request and use it to create a private key:
+Create a CA certificate by first creating a private key, then using it to create a certificate signing request, then self-signing the new certificate with our key.
 
 ```bash
 {
@@ -191,7 +191,7 @@ kube-scheduler.crt
 
 ### The Kubernetes API Server Certificate
 
-The kube-apiserver certificate requires all names that various components may reach it to be part of the alternate names. These include the different DNS names, and IP addresses such as the controlplane servers IP address, the load balancers IP address, the kube-api service IP address etc.
+The kube-apiserver certificate requires all names that various components may reach it to be part of the alternate names. These include the different DNS names, and IP addresses such as the controlplane servers IP address, the load balancers IP address, the kube-api service IP address etc. These provide an *identity* for the certificate, which is key in the SSL process for a server to prove who it is.
 
 The `openssl` command cannot take alternate names as command line parameter. So we must create a `conf` file for it:
 
@@ -282,7 +282,7 @@ apiserver-kubelet-client.key
 
 ### The ETCD Server Certificate
 
-Similarly ETCD server certificate must have addresses of all the servers part of the ETCD cluster
+Similarly ETCD server certificate must have addresses of all the servers part of the ETCD cluster. Similarly, this is a server certificate, which is again all about proving identity.
 
 The `openssl` command cannot take alternate names as command line parameter. So we must create a `conf` file for it:
 
@@ -326,7 +326,7 @@ etcd-server.crt
 
 ## The Service Account Key Pair
 
-The Kubernetes Controller Manager leverages a key pair to generate and sign service account tokens as describe in the [managing service accounts](https://kubernetes.io/docs/admin/service-accounts-admin/) documentation.
+The Kubernetes Controller Manager leverages a key pair to generate and sign service account tokens as described in the [managing service accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/) documentation.
 
 Generate the `service-account` certificate and private key:
 
@@ -355,7 +355,7 @@ Run the following, and select option 1 to check all required certificates were g
 
 [//]: # (command:./cert_verify.sh 1)
 
-```bash
+```
 ./cert_verify.sh
 ```
 

@@ -135,5 +135,5 @@ sudo ETCDCTL_API=3 etcdctl member list \
 
 Reference: https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#starting-etcd-clusters
 
-Next: [Bootstrapping the Kubernetes Control Plane](08-bootstrapping-kubernetes-controllers.md)<br>
-Prev: [Generating the Data Encryption Config and Key](06-data-encryption-keys.md)
+Next: [Bootstrapping the Kubernetes Control Plane](./08-bootstrapping-kubernetes-controllers.md)<br>
+Prev: [Generating the Data Encryption Config and Key](./06-data-encryption-keys.md)

@@ -186,5 +186,5 @@ At `controlplane01` and `controlplane02` nodes, run the following, selecting opt
 ```
 
 
-Next: [Generating the Data Encryption Config and Key](06-data-encryption-keys.md)<br>
-Prev: [Certificate Authority](04-certificate-authority.md)
+Next: [Generating the Data Encryption Config and Key](./06-data-encryption-keys.md)<br>
+Prev: [Certificate Authority](./04-certificate-authority.md)

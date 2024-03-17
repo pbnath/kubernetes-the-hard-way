@@ -14,7 +14,7 @@ CD into vagrant directory:
 cd kubernetes-the-hard-way/vagrant
 ```
 
-The `Vagrantfile` is configured to assume you have at least an 8 core CPU which most modern core i5, i7 and i9 do, and at least 16GB RAM. You can tune these values especially if you have *less* than this by editing the `Vagrantfile` before the next step below and adjusting the values for `RAM_SIZE` and `CPU_CORES` accordingly.
+The `Vagrantfile` is configured to assume you have at least an 8 core CPU which most modern core i5, i7 and i9 do, and at least 16GB RAM. You can tune these values especially if you have *less* than this by editing the `Vagrantfile` before the next step below and adjusting the values for `RAM_SIZE` and `CPU_CORES` accordingly. It is not recommended to change these unless you know what you are doing as it may result in crashes and will make the lab harder to support.
 
 This will not work if you have less than 8GB of RAM.
 
@@ -57,7 +57,7 @@ There are two ways to SSH into the nodes:
 
 ### 1. SSH using Vagrant
 
-  From the directory you ran the `vagrant up` command, run `vagrant ssh \<vm\>` for example `vagrant ssh controlplane01`.
+  From the directory you ran the `vagrant up` command, run `vagrant ssh \<vm\>` for example `vagrant ssh controlplane01`. This is the recommended way.
   > Note: Use VM field from the above table and not the VM name itself.
 
 ### 2. SSH Using SSH Client Tools

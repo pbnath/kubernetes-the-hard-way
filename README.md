@@ -1,5 +1,7 @@
 # Kubernetes The Hard Way
 
+Updated: March 2024
+
 This tutorial walks you through setting up Kubernetes the hard way on a local machine using a hypervisor.
 This guide is not for people looking for a fully automated command to bring up a Kubernetes cluster.
 If that's you then check out [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine), or the [Getting Started Guides](http://kubernetes.io/docs/getting-started-guides/).
@@ -11,7 +13,7 @@ While the original one uses GCP as the platform to deploy kubernetes,  we use a 
 
 The results of this tutorial should *not* be viewed as production ready, and may receive limited support from the community, but don't let that stop you from learning!<br/>Note that we are only building 2 controlplane nodes here instead of the recommended 3 that `etcd` requires to maintain quorum. This is to save on resources, and simply to show how to load balance across more than one controlplane node.
 
-### Before shouting "Help! It's not working!"
+### <font color="red">Before shouting "Help! It's not working!"</font>
 
 Please note that with this particular challenge, it is all about the minute detail. If you miss _one tiny step_ anywhere along the way, it's going to break!
 

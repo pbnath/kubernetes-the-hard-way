@@ -2,6 +2,8 @@
 
 Kubernetes components are stateless and store cluster state in [etcd](https://etcd.io/). In this lab you will bootstrap a two node etcd cluster and configure it for high availability and secure remote access.
 
+If you examine the command line arguments passed to etcd in its unit file, you should recognise some of the certificates and keys created in earlier sections of this course.
+
 ## Prerequisites
 
 The commands in this lab must be run on each controller instance: `controlplane01`, and `controlplane02`. Login to each of these using an SSH terminal.
@@ -118,7 +120,7 @@ EOF
 
 List the etcd cluster members.
 
-After running the abovre commands on both controlplane nodes, run the following on either `controlplane01` or `controlplane02`
+After running the abovre commands on both controlplane nodes, run the following on either or both of `controlplane01` and `controlplane02`
 
 ```bash
 sudo ETCDCTL_API=3 etcdctl member list \

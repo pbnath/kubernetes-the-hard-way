@@ -8,7 +8,7 @@ Reference: https://github.com/containerd/containerd/blob/main/docs/getting-start
 
 The commands in this lab must be run on each worker instance: `node01`, and `node02`. Login to each controller instance using SSH Terminal.
 
-Here we will install the container runtime `containerd` from the Ubuntu distribution, and kubectl plus the CNI tools from the Kubernetes distribution. Kubectl is required on node02 to initialize kubeconfig files for the worker-node auto registration.
+Here we will install the container runtime `containerd` from the Ubuntu distribution, and kubectl plus the CNI tools from the Kubernetes distribution. Kubectl is required on `node02` to initialize kubeconfig files for the worker-node auto registration.
 
 [//]: # (host:node01-node02)
 
@@ -75,7 +75,7 @@ You can perform this step with [tmux](01-prerequisites.md#running-commands-in-pa
 
 1.  Configure the container runtime to use systemd Cgroups. This part is the bit many students miss, and if not done results in a controlplane that comes up, then all the pods start crashlooping. `kubectl` will also fail with an error like `The connection to the server x.x.x.x:6443 was refused - did you specify the right host or port?`
 
-    1. Create default configuration
+    1. Create default configuration and pipe it through `sed` to correctly set Cgroup parameter.
 
         ```bash
         {

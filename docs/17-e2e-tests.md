@@ -7,6 +7,8 @@ Observations by Alistair (KodeKloud):
 Depending on your computer, you may have varying success with these. I have found them to run much more smoothly on a 12 core Intel(R) Core(TM) i7-7800X Desktop Processor (circa 2017), than on a 20 core Intel(R) Core(TM) i7-12700H Laptop processor (circa 2022) - both machines having 32GB RAM and both machines running the same version of VirtualBox. On the latter, it tends to destabilize the cluster resulting in timeouts in the tests. This *may* be a processor issue in that laptop processors are not really designed to take the kind of abuse that'll be thrown by the tests at a kube cluster that really should be run on a Server processor. Laptop processors do odd things for power conservation like constantly varying the clock speed and mixing "performance" and "efficiency" cores, even when the laptop is plugged in, and this could be causing synchronization issues with the goroutines running in the kube components. If anyone has a definitive explanation for this, please do post in the Kubernetes section of the [Community Forum](https://kodekloud.com/community/c/kubernetes/6).
 
 
+Test suite should be installed to and run from `controlplane01`
+
 ## Install latest Go
 
 ```bash

@@ -461,7 +461,7 @@ Now, go back to `controlplane01` and approve the pending kubelet-serving certifi
 
 [//]: # (host:controlplane01)
 [//]: # (command:sudo apt install -y jq)
-[//]: # (command:./approve-csr.sh)
+[//]: # (command:. ./approve-csr.sh)
 
 
 ```bash
